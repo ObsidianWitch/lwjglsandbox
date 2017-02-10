@@ -1,0 +1,30 @@
+buildscript {
+    ext {
+        kotlin_version = '1.0.0'
+        lwjgl_version = '3.1.1'
+    }
+    repositories { mavenCentral() }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+apply plugin: 'kotlin'
+sourceSets { main.kotlin.srcDirs += 'src' }
+
+apply plugin: 'application'
+mainClassName = 'sandbox.MainKt'
+
+repositories { mavenCentral() }
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile "org.lwjgl:lwjgl:${lwjgl_version}"
+    compile "org.lwjgl:lwjgl-glfw:${lwjgl_version}"
+    compile "org.lwjgl:lwjgl-opengl:${lwjgl_version}"
+    compile "org.lwjgl:lwjgl-assimp:${lwjgl_version}"
+
+    runtime "org.lwjgl:lwjgl:${lwjgl_version}:natives-linux"
+    runtime "org.lwjgl:lwjgl-glfw:${lwjgl_version}:natives-linux"
+    runtime "org.lwjgl:lwjgl-opengl:${lwjgl_version}:natives-linux"
+    runtime "org.lwjgl:lwjgl-assimp:${lwjgl_version}:natives-linux"
+}
