@@ -3,6 +3,8 @@ package sandbox
 import org.lwjgl.glfw.GLFW.*
 import org.lwjgl.opengl.GL11.*
 
+import sandbox.ui.Window
+
 fun main(args: Array<String>) {
     val window = Window()
 

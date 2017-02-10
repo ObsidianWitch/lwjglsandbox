@@ -1,4 +1,4 @@
-package sandbox
+package sandbox.ui
 
 import org.lwjgl.glfw.*
 import org.lwjgl.glfw.GLFW.*
