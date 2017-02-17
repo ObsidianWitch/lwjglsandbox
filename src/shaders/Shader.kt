@@ -35,7 +35,7 @@ class Shader {
 
         shaders.forEach { glAttachShader(program, it) }
 
-        glLinkProgram(program);
+        glLinkProgram(program)
         val linked = glGetProgrami(program, GL_LINK_STATUS)
         assert(linked != 0) { """
             Program linkage failed

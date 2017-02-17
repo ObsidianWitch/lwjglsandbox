@@ -25,7 +25,7 @@ class Triangle {
 
         // Generate and bind vertex array
         vertexArray = glGenVertexArrays()
-        glBindVertexArray(vertexArray);
+        glBindVertexArray(vertexArray)
 
         // Generate and bind vertex buffer
         val vertexBuffer = glGenBuffers()
@@ -42,18 +42,18 @@ class Triangle {
             0,        // stride
             0         // pointer/offset
         )
-        glEnableVertexAttribArray(0);
+        glEnableVertexAttribArray(0)
 
         // Unbind vertex array & buffers
-        glBindVertexArray(0);
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindVertexArray(0)
+        glBindBuffer(GL_ARRAY_BUFFER, 0)
     }
 
     fun draw() {
         shader.use()
 
-        glBindVertexArray(vertexArray);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
-        glBindVertexArray(0);
+        glBindVertexArray(vertexArray)
+        glDrawArrays(GL_TRIANGLES, 0, 3)
+        glBindVertexArray(0)
     }
 }
