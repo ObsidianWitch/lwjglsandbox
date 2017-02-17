@@ -2,6 +2,7 @@ buildscript {
     ext {
         kotlin_version = '1.0.0'
         lwjgl_version = '3.1.1'
+        joml_version = "1.9.2"
     }
     repositories { mavenCentral() }
     dependencies {
@@ -22,6 +23,7 @@ dependencies {
     compile "org.lwjgl:lwjgl-glfw:${lwjgl_version}"
     compile "org.lwjgl:lwjgl-opengl:${lwjgl_version}"
     compile "org.lwjgl:lwjgl-assimp:${lwjgl_version}"
+    compile "org.joml:joml:${joml_version}"
 
     runtime "org.lwjgl:lwjgl:${lwjgl_version}:natives-linux"
     runtime "org.lwjgl:lwjgl-glfw:${lwjgl_version}:natives-linux"
