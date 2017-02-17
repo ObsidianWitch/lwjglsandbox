@@ -7,7 +7,10 @@ import sandbox.ui.Window
 import sandbox.models.Triangle
 
 fun main(args: Array<String>) {
-    val window = Window()
+    val window = Window(
+        width  = 800,
+        height = 600
+    )
 
     val triangle = Triangle()
     glClearColor(1.0f, 0.0f, 0.0f, 0.0f)

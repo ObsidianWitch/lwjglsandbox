@@ -4,11 +4,13 @@ import org.lwjgl.glfw.*
 import org.lwjgl.glfw.GLFW.*
 import org.lwjgl.opengl.*
 import org.lwjgl.system.*
+import org.lwjgl.opengl.GL11.*
 
 class Window {
     val handle: Long
 
-    constructor() {
+    constructor(width: Int, height: Int) {
+        // GLFW
         GLFWErrorCallback.createPrint(System.err).set()
 
         if (!glfwInit()) {
@@ -20,8 +22,8 @@ class Window {
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
         handle = glfwCreateWindow(
-            800,             // width
-            600,             // height
+            width,           // width
+            height,          // height
             "Sandbox",       // title
             MemoryUtil.NULL, // monitor
             MemoryUtil.NULL  // share
@@ -37,8 +39,11 @@ class Window {
         }
 
         glfwMakeContextCurrent(handle)
-        GL.createCapabilities()
         glfwSwapInterval(1) //vsync
+
+        // OpenGL
+        GL.createCapabilities()
+        glViewport(0, 0, width, height);
     }
 
     fun addKeyCallback(
