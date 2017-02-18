@@ -1,5 +1,7 @@
 package sandbox.ui
 
+import kotlin.properties.Delegates
+
 import org.lwjgl.glfw.*
 import org.lwjgl.glfw.GLFW.*
 import org.lwjgl.opengl.*
@@ -11,7 +13,12 @@ class Window {
     val callbacks: Callbacks
 
     constructor(width: Int, height: Int) {
-        // GLFW
+        handle = initGLFW(width, height)
+        initOpenGL(width, height)
+        callbacks = initCallbacks()
+    }
+
+    private fun initGLFW(width: Int, height: Int) : Long {
         GLFWErrorCallback.createPrint(System.err).set()
         if (!glfwInit()) {
             throw IllegalStateException("Unable to initialize GLFW")
@@ -21,7 +28,7 @@ class Window {
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3)
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE)
 
-        handle = glfwCreateWindow(
+        val handle = glfwCreateWindow(
             width,           // width
             height,          // height
             "Sandbox",       // title
@@ -35,17 +42,23 @@ class Window {
         glfwMakeContextCurrent(handle)
         glfwSwapInterval(1) //vsync
 
-        // OpenGL
+        return handle
+    }
+
+    private fun initOpenGL(width: Int, height: Int) {
         GL.createCapabilities()
         GLUtil.setupDebugMessageCallback()
         glViewport(0, 0, width, height)
+    }
 
-        // Callbacks
-        callbacks = Callbacks(handle)
+    private fun initCallbacks() : Callbacks {
+        val callbacks = Callbacks(handle)
         callbacks.addKeyCallback { window, key, scancode, action, mods ->
             if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE ) {
                 glfwSetWindowShouldClose(window, true)
             }
         }
+
+        return callbacks
     }
 }
