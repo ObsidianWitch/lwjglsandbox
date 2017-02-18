@@ -1,5 +1,7 @@
 package sandbox.models
 
+import java.nio.IntBuffer
+
 import org.lwjgl.opengl.GL11.*
 import org.lwjgl.opengl.GL15.*
 import org.lwjgl.opengl.GL20.*
@@ -7,15 +9,21 @@ import org.lwjgl.opengl.GL30.*
 
 import sandbox.shaders.Shader
 
-class Triangle {
+class Rectangle {
     private val shader: Shader
     private val vertexArray : Int
+    private val indices : IntArray
 
     constructor() {
         val vertices = floatArrayOf(
-            -0.5f, -0.5f, 0.0f,
-             0.5f, -0.5f, 0.0f,
-             0.0f,  0.5f, 0.0f
+             0.5f,  0.5f, 0.0f,  // Top Right
+             0.5f, -0.5f, 0.0f,  // Bottom Right
+            -0.5f, -0.5f, 0.0f,  // Bottom Left
+            -0.5f,  0.5f, 0.0f   // Top Left
+        )
+        indices = intArrayOf(
+            0, 1, 3,   // First Triangle
+            1, 2, 3    // Second Triangle
         )
 
         // Generate and compile shader
@@ -31,6 +39,11 @@ class Triangle {
         val vertexBuffer = glGenBuffers()
         glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer)
         glBufferData(GL_ARRAY_BUFFER, vertices, GL_STATIC_DRAW)
+
+        // Generate and bind element buffer
+        val elementBuffer = glGenBuffers()
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBuffer)
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices, GL_STATIC_DRAW)
 
         // Vertex attribute pointers
         // vertices positions at index 0
@@ -53,7 +66,7 @@ class Triangle {
         shader.use()
 
         glBindVertexArray(vertexArray)
-        glDrawArrays(GL_TRIANGLES, 0, 3)
+        glDrawElements(GL_TRIANGLES, IntBuffer.wrap(indices))
         glBindVertexArray(0)
     }
 }
