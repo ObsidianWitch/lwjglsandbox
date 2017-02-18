@@ -9,17 +9,21 @@ import org.lwjgl.system.*
 import org.lwjgl.opengl.GL11.*
 
 class Window {
-    val handle: Long
-    val callbacks: Callbacks
+    public val callbacks: Callbacks
+
+    private val handle: Long
+    private val debug: Boolean
 
     constructor(width: Int, height: Int) {
+        debug = (System.getProperty("debug") != null)
         handle = initGLFW(width, height)
         initOpenGL(width, height)
         callbacks = initCallbacks()
     }
 
     private fun initGLFW(width: Int, height: Int) : Long {
-        GLFWErrorCallback.createPrint(System.err).set()
+        if (debug) { GLFWErrorCallback.createPrint(System.err).set() }
+
         if (!glfwInit()) {
             throw IllegalStateException("Unable to initialize GLFW")
         }
@@ -47,8 +51,9 @@ class Window {
 
     private fun initOpenGL(width: Int, height: Int) {
         GL.createCapabilities()
-        GLUtil.setupDebugMessageCallback()
         glViewport(0, 0, width, height)
+
+        if (debug) { GLUtil.setupDebugMessageCallback() }
     }
 
     private fun initCallbacks() : Callbacks {
@@ -60,5 +65,13 @@ class Window {
         }
 
         return callbacks
+    }
+
+    fun shouldClose() : Boolean {
+        return glfwWindowShouldClose(handle)
+    }
+
+    fun swapBuffers() {
+        glfwSwapBuffers(handle)
     }
 }

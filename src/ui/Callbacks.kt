@@ -7,7 +7,7 @@ import org.lwjgl.system.*
 import org.lwjgl.opengl.GL11.*
 
 class Callbacks {
-    val handle: Long
+    private val handle: Long
 
     constructor(handle: Long) {
         this.handle = handle

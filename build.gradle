@@ -15,7 +15,6 @@ sourceSets { main.kotlin.srcDirs += 'src' }
 
 apply plugin: 'application'
 mainClassName = 'sandbox.MainKt'
-applicationDefaultJvmArgs = [ "-enableassertions" ]
 
 repositories { mavenCentral() }
 dependencies {
@@ -30,4 +29,13 @@ dependencies {
     runtime "org.lwjgl:lwjgl-glfw:${lwjgl_version}:natives-linux"
     runtime "org.lwjgl:lwjgl-opengl:${lwjgl_version}:natives-linux"
     runtime "org.lwjgl:lwjgl-assimp:${lwjgl_version}:natives-linux"
+}
+
+task debug(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'sandbox.MainKt'
+    jvmArgs = [
+        '-enableassertions',
+        '-Ddebug=1'
+    ]
 }
