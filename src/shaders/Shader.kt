@@ -9,7 +9,6 @@ import org.lwjgl.opengl.GL20.*
 class Shader {
     private var program: Int = 0
     private val shaders: MutableList<Int> = mutableListOf()
-    //private val uniforms: MutableMap<String, Int> = mutableMapOf()
 
     fun add(type: Int, path: String) : Shader {
         val src = Files.lines(Paths.get(path))

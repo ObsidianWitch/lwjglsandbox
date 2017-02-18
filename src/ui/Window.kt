@@ -8,11 +8,11 @@ import org.lwjgl.opengl.GL11.*
 
 class Window {
     val handle: Long
+    val callbacks: Callbacks
 
     constructor(width: Int, height: Int) {
         // GLFW
         GLFWErrorCallback.createPrint(System.err).set()
-
         if (!glfwInit()) {
             throw IllegalStateException("Unable to initialize GLFW")
         }
@@ -32,31 +32,20 @@ class Window {
             throw RuntimeException("Failed to create the GLFW window.")
         }
 
-        addKeyCallback { window, key, scancode, action, mods ->
-            if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE ) {
-                glfwSetWindowShouldClose(window, true)
-            }
-        }
-
         glfwMakeContextCurrent(handle)
         glfwSwapInterval(1) //vsync
 
         // OpenGL
         GL.createCapabilities()
+        GLUtil.setupDebugMessageCallback()
         glViewport(0, 0, width, height)
-    }
 
-    fun addKeyCallback(
-        callback: (
-            window: Long, key: Int, scancode: Int, action: Int, mods: Int
-        ) -> Unit
-    ) {
-        object : GLFWKeyCallback() {
-            override fun invoke(
-                window: Long, key: Int, scancode: Int, action: Int, mods: Int
-            ) {
-                callback(window, key, scancode, action, mods)
+        // Callbacks
+        callbacks = Callbacks(handle)
+        callbacks.addKeyCallback { window, key, scancode, action, mods ->
+            if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE ) {
+                glfwSetWindowShouldClose(window, true)
             }
-        }.set(handle)
+        }
     }
 }
