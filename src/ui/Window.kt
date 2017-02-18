@@ -67,11 +67,11 @@ class Window {
         return callbacks
     }
 
-    fun shouldClose() : Boolean {
-        return glfwWindowShouldClose(handle)
-    }
-
-    fun swapBuffers() {
-        glfwSwapBuffers(handle)
+    fun loop(instructions: () -> Unit) {
+        while (!glfwWindowShouldClose(handle)) {
+            glfwPollEvents()
+            instructions()
+            glfwSwapBuffers(handle)
+        }
     }
 }

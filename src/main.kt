@@ -15,14 +15,10 @@ fun main(args: Array<String>) {
     val rectangle = Rectangle()
     glClearColor(1.0f, 0.0f, 0.0f, 0.0f)
 
-    while (!window.shouldClose()) {
-        glfwPollEvents()
-
+    window.loop() {
         glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT)
 
         rectangle.draw()
-
-        window.swapBuffers()
     }
 
     glfwTerminate()
