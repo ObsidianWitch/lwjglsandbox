@@ -1,6 +1,7 @@
 package sandbox.models
 
 import org.lwjgl.opengl.GL20.*
+import org.joml.*
 
 import sandbox.shaders.Shader
 
@@ -20,9 +21,13 @@ class Rectangle {
             1, 2, 3    // Second Triangle
         )
 
-        val shader = Shader().add(GL_VERTEX_SHADER, "src/shaders/main.vs")
-                         .add(GL_FRAGMENT_SHADER, "src/shaders/main.fs")
-                         .link()
+        val shader = Shader()
+           .add(GL_VERTEX_SHADER, "src/shaders/main.vs")
+           .add(GL_FRAGMENT_SHADER, "src/shaders/main.fs")
+           .link()
+           .bind()
+           .setUniform("diffuseColor", Vector4f(0.0f, 0.0f, 1.0f, 1.0f))
+           .unbind()
 
         mesh = Mesh(vertices, indices, shader)
     }
