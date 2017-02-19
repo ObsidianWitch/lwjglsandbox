@@ -52,10 +52,12 @@ class Mesh {
     }
 
     fun render() {
-        shader.use()
+        shader.bind()
 
         glBindVertexArray(vertexArray)
         glDrawElements(GL_TRIANGLES, IntBuffer.wrap(indices))
         glBindVertexArray(0)
+
+        shader.unbind()
     }
 }

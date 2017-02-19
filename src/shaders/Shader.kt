@@ -47,9 +47,13 @@ class Shader {
         return this
     }
 
-    fun use() {
+    fun bind() {
         assert(program != 0)
         glUseProgram(program)
+    }
+
+    fun unbind() {
+        glUseProgram(0)
     }
 }
 
