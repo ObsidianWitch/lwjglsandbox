@@ -7,18 +7,18 @@ import org.lwjgl.opengl.GL15.*
 import org.lwjgl.opengl.GL20.*
 import org.lwjgl.opengl.GL30.*
 
-import sandbox.shaders.Shader
+import sandbox.materials.Material
 
 class Mesh {
     private val vertices: FloatArray
     private val indices: IntArray
     private val vertexArray : Int
-    private val shader: Shader // TODO Material class
+    private val material: Material
 
-    constructor(vertices: FloatArray, indices: IntArray, shader: Shader) {
+    constructor(vertices: FloatArray, indices: IntArray, material: Material) {
         this.vertices = vertices
         this.indices = indices
-        this.shader = shader
+        this.material = material
 
         // Generate and bind vertex array
         vertexArray = glGenVertexArrays()
@@ -51,13 +51,9 @@ class Mesh {
         glBindBuffer(GL_ARRAY_BUFFER, 0)
     }
 
-    fun render() {
-        shader.bind()
-
-        glBindVertexArray(vertexArray)
-        glDrawElements(GL_TRIANGLES, IntBuffer.wrap(indices))
-        glBindVertexArray(0)
-
-        shader.unbind()
+    fun render() = material.block {
+            glBindVertexArray(vertexArray)
+            glDrawElements(GL_TRIANGLES, IntBuffer.wrap(indices))
+            glBindVertexArray(0)
     }
 }

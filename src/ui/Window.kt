@@ -9,10 +9,9 @@ import org.lwjgl.system.*
 import org.lwjgl.opengl.GL11.*
 
 class Window {
-    public val callbacks: Callbacks
-
     private val handle: Long
     private val debug: Boolean
+    val callbacks: Callbacks
 
     constructor(width: Int, height: Int) {
         debug = (System.getProperty("debug") != null)
