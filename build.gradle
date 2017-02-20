@@ -23,12 +23,14 @@ dependencies {
     compile "org.lwjgl:lwjgl-glfw:${lwjgl_version}"
     compile "org.lwjgl:lwjgl-opengl:${lwjgl_version}"
     compile "org.lwjgl:lwjgl-assimp:${lwjgl_version}"
+    compile "org.lwjgl:lwjgl-stb:${lwjgl_version}"
     compile "org.joml:joml:${joml_version}"
 
     runtime "org.lwjgl:lwjgl:${lwjgl_version}:natives-linux"
     runtime "org.lwjgl:lwjgl-glfw:${lwjgl_version}:natives-linux"
     runtime "org.lwjgl:lwjgl-opengl:${lwjgl_version}:natives-linux"
     runtime "org.lwjgl:lwjgl-assimp:${lwjgl_version}:natives-linux"
+    runtime "org.lwjgl:lwjgl-stb:${lwjgl_version}:natives-linux"
 }
 
 task debug(type: JavaExec) {

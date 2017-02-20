@@ -10,13 +10,11 @@ import org.lwjgl.opengl.GL30.*
 import sandbox.materials.Material
 
 class Mesh {
-    private val vertices: FloatArray
     private val indices: IntArray
     private val vertexArray : Int
     private val material: Material
 
     constructor(vertices: FloatArray, indices: IntArray, material: Material) {
-        this.vertices = vertices
         this.indices = indices
         this.material = material
 
@@ -41,10 +39,21 @@ class Mesh {
             3,        // size
             GL_FLOAT, // type
             false,    // normalized
-            0,        // stride
+            4 * 5,    // stride, sizeof(GL_FLOAT) * 5 elements for one vertex
             0         // pointer/offset
         )
         glEnableVertexAttribArray(0)
+
+        // vertices positions at index 1
+        glVertexAttribPointer(
+            1,        // index
+            2,        // size
+            GL_FLOAT, // type
+            false,    // normalized
+            4 * 5,    // stride, sizeof(GL_FLOAT) * 5 elements for one vertex
+            4 * 3     // pointer/offset, sizeof(GL_FLOAT) * 3 elements before
+        )
+        glEnableVertexAttribArray(1)
 
         // Unbind vertex array & buffers
         glBindVertexArray(0)
