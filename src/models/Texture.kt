@@ -68,6 +68,8 @@ class Texture {
         glBindTexture(GL_TEXTURE_2D, 0)
         stbi_image_free(image)
 
+        loadedTextures.add(this)
+
         return id
     }
 
