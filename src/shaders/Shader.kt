@@ -14,7 +14,7 @@ class Shader {
     private val shaders: MutableList<Int> = mutableListOf()
     private val uniforms: MutableMap<String, Int> = mutableMapOf()
 
-    fun add(type: Int, path: String) : Shader {
+    fun add(type: Int, path: String) {
         val src = Files.lines(Paths.get(path))
                        .collect(Collectors.joining("\n"))
 
@@ -29,11 +29,9 @@ class Shader {
         """.trimIndent() }
 
         shaders.add(shader)
-
-        return this
     }
 
-    fun link() : Shader {
+    fun link() {
         program = glCreateProgram()
 
         shaders.forEach { glAttachShader(program, it) }
@@ -47,12 +45,10 @@ class Shader {
 
         shaders.forEach { glDeleteShader(it) }
         shaders.clear()
-
-        return this
     }
 
-    fun bind() : Shader { assert(program != 0); glUseProgram(program); return this }
-    fun unbind() : Shader { glUseProgram(0); return this }
+    fun bind() { assert(program != 0); glUseProgram(program) }
+    fun unbind() { glUseProgram(0) }
     inline fun block(f: Shader.() -> Unit) { bind(); f(); unbind() }
 
     private fun uniformLocation(name: String) : Int {
@@ -63,44 +59,32 @@ class Shader {
         return id
     }
 
-    fun setUniform(name: String, value: Int) : Shader {
+    fun setUniform(name: String, value: Int) {
         glUniform1i(uniformLocation(name), value)
-
-        return this
     }
 
-    fun setUniform(name: String, value: Float) : Shader {
+    fun setUniform(name: String, value: Float) {
         glUniform1f(uniformLocation(name), value)
-
-        return this
     }
 
-    fun setUniform(name: String, value: Vector3f) : Shader {
+    fun setUniform(name: String, value: Vector3f) {
         val fb = BufferUtils.createFloatBuffer(3)
         glUniform3fv(uniformLocation(name), value.get(fb))
-
-        return this
     }
 
-    fun setUniform(name: String, value: Vector4f) : Shader {
+    fun setUniform(name: String, value: Vector4f) {
         val fb = BufferUtils.createFloatBuffer(4)
         glUniform4fv(uniformLocation(name), value.get(fb))
-
-        return this
     }
 
-    fun setUniform(name: String, value: Matrix3f) : Shader {
+    fun setUniform(name: String, value: Matrix3f) {
         val fb = BufferUtils.createFloatBuffer(9)
         glUniformMatrix3fv(uniformLocation(name), false, value.get(fb))
-
-        return this
     }
 
-    fun setUniform(name: String, value: Matrix4f) : Shader {
+    fun setUniform(name: String, value: Matrix4f) {
         val fb = BufferUtils.createFloatBuffer(16)
         glUniformMatrix4fv(uniformLocation(name), false, value.get(fb))
-
-        return this
     }
 }
 
