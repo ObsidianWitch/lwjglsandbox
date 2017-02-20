@@ -8,15 +8,16 @@ import org.lwjgl.opengl.GL20.*
 import sandbox.shaders.Shader
 
 class Unshaded : Material() {
-    override val shader: Shader = Shader().apply {
+    override protected val shader: Shader = Shader().apply {
        add(GL_VERTEX_SHADER, "src/shaders/main.vs")
        add(GL_FRAGMENT_SHADER, "src/shaders/main.fs")
        link()
     }
 
-    var diffuseColor: Vector4f = Vector4f(0.0f, 0.0f, 0.0f, 0.0f)
+    var diffuseColor: Vector4f = Vector4f(0.0f)
         set(value) = shader.use {
             field = value
             setUniform("diffuseColor", value)
+            setUniform("hasDiffuseColor", 1)
         }
 }

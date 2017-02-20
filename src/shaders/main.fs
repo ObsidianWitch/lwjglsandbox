@@ -1,10 +1,15 @@
 #version 330 core
 
-out vec4 color;
+out vec4 outColor;
 
+uniform bool hasDiffuseColor;
 uniform vec4 diffuseColor;
 
 void main() {
-    color = diffuseColor;
+    vec4 color = vec4(1.0f);
+
+    if (hasDiffuseColor) { color *= diffuseColor; }
+
+    outColor = color;
 }
 
