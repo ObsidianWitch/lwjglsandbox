@@ -1,7 +1,5 @@
 package sandbox.materials
 
-import sandbox.shaders.Shader
-
 abstract class Material {
     protected abstract val shader: Shader
 

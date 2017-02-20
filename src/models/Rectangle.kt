@@ -1,6 +1,5 @@
 package sandbox.models
 
-
 import org.joml.*
 
 import sandbox.materials.Unshaded

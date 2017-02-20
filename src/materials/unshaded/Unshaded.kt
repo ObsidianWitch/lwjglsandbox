@@ -1,16 +1,12 @@
 package sandbox.materials
 
-import kotlin.properties.Delegates
-
 import org.joml.Vector4f
 import org.lwjgl.opengl.GL20.*
 
-import sandbox.shaders.Shader
-
 class Unshaded : Material() {
     override protected val shader: Shader = Shader().apply {
-       add(GL_VERTEX_SHADER, "src/shaders/main.vs")
-       add(GL_FRAGMENT_SHADER, "src/shaders/main.fs")
+       add(GL_VERTEX_SHADER, "src/materials/unshaded/Unshaded.vs")
+       add(GL_FRAGMENT_SHADER, "src/materials/unshaded/Unshaded.fs")
        link()
     }
 
