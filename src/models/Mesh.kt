@@ -51,7 +51,7 @@ class Mesh {
         glBindBuffer(GL_ARRAY_BUFFER, 0)
     }
 
-    fun render() = material.block {
+    fun render() = material.use {
             glBindVertexArray(vertexArray)
             glDrawElements(GL_TRIANGLES, IntBuffer.wrap(indices))
             glBindVertexArray(0)

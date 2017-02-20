@@ -15,8 +15,8 @@ class Unshaded : Material() {
     }
 
     var diffuseColor: Vector4f = Vector4f(0.0f, 0.0f, 0.0f, 0.0f)
-        set(value) { shader.block {
+        set(value) = shader.use {
             field = value
             setUniform("diffuseColor", value)
-        }}
+        }
 }

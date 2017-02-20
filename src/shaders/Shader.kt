@@ -49,7 +49,7 @@ class Shader {
 
     fun bind() { assert(program != 0); glUseProgram(program) }
     fun unbind() { glUseProgram(0) }
-    inline fun block(f: Shader.() -> Unit) { bind(); f(); unbind() }
+    inline fun use(f: Shader.() -> Unit) { bind(); f(); unbind() }
 
     private fun uniformLocation(name: String) : Int {
         if (uniforms.contains(name)) { return uniforms[name]!! }
