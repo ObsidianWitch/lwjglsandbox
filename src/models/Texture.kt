@@ -5,6 +5,7 @@ import java.nio.IntBuffer
 import org.lwjgl.BufferUtils
 import org.lwjgl.stb.STBImage.*
 import org.lwjgl.opengl.GL11.*
+import org.lwjgl.opengl.GL13.*
 import org.lwjgl.opengl.GL30.*
 
 class Texture {
@@ -14,9 +15,11 @@ class Texture {
 
     private val id: Int
     private val path: String
+    var unit: Int
 
-    constructor(path: String) {
+    constructor(path: String, unit: Int = GL_TEXTURE0) {
         this.path = path
+        this.unit = unit
 
         // Only load the texture if it has not already been loaded.
         id = loadedTextures.filter { it.path == this.path }
@@ -69,6 +72,7 @@ class Texture {
     }
 
     fun bind() {
+        glActiveTexture(unit)
         glBindTexture(GL_TEXTURE_2D, id)
     }
 
@@ -76,3 +80,4 @@ class Texture {
         glBindTexture(GL_TEXTURE_2D, 0)
     }
 }
+
