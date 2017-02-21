@@ -60,15 +60,10 @@ class Mesh {
         glBindBuffer(GL_ARRAY_BUFFER, 0)
     }
 
-    // Renders the current mesh by binding the associated material (shader +
-    // uniforms). Further instructions can be specified through the `f`
-    // parameter. This is useful for example to set more uniforms which are
-    // not directly related to the material (e.g. transformations).
-    fun render(f: Mesh.() -> Unit = {}) = material.use {
-            f()
-
-            glBindVertexArray(vertexArray)
-            glDrawElements(GL_TRIANGLES, IntBuffer.wrap(indices))
-            glBindVertexArray(0)
+    fun render(f: Mesh.() -> Unit) = material.use {
+        f()
+        glBindVertexArray(vertexArray)
+        glDrawElements(GL_TRIANGLES, IntBuffer.wrap(indices))
+        glBindVertexArray(0)
     }
 }

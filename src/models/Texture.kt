@@ -31,7 +31,7 @@ class Texture {
     // Loads the image at `path` as a 2D texture.
     // Force the image to have 4 channels (RGBA).
     // Texture wrapping: repeat.
-    // Minifying filter: nearest mipmap, nearest texel.
+    // Minifying filter: linear mipmap, linear texel.
     // Magnifying filter: linear filtering (interpolates values from
     // neighbouring texels).
     fun load() : Int {
@@ -62,7 +62,7 @@ class Texture {
 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
 
         glBindTexture(GL_TEXTURE_2D, 0)

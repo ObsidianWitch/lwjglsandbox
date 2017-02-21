@@ -34,7 +34,7 @@ class Unshaded : Material() {
         diffuseTexture?.bind()
     }
     override fun unbind() {
-        shader.unbind()
         diffuseTexture?.unbind()
+        shader.unbind()
     }
 }

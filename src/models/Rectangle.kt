@@ -4,12 +4,12 @@ import org.joml.*
 
 import sandbox.materials.Unshaded
 import sandbox.models.Texture
+import sandbox.nodes.Node
 
-class Rectangle {
-    private val mesh: Mesh
-    private val model: Matrix4f
+import org.lwjgl.glfw.GLFW.*
 
-    constructor() {
+class Rectangle : Node {
+    constructor() : super() {
         mesh = Mesh(
             vertices = floatArrayOf(
                  // Positions          // Texture Coordinates
@@ -28,13 +28,13 @@ class Rectangle {
             }
         )
 
-        model = Matrix4f().apply {
-            rotateZ(Math.toRadians(90.0).toFloat())
-            scale(1.0f, 0.5f, 1.0f)
-        }
+        modelMatrix.scale(0.1f, 1.0f, 1.0f)
     }
 
-    fun render() = mesh.render {
-        material.shader.setUniform("model", model)
+    override fun update(f: () -> Unit) = super.update {
+        localMatrix.apply {
+            identity()
+            rotateZ(glfwGetTime().toFloat())
+        }
     }
 }

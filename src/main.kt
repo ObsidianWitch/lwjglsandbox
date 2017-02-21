@@ -18,7 +18,7 @@ fun main(args: Array<String>) {
     window.loop() {
         glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT)
 
-        rectangle.render()
+        rectangle.update()
     }
 
     glfwTerminate()
