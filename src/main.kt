@@ -4,7 +4,7 @@ import org.lwjgl.glfw.GLFW.*
 import org.lwjgl.opengl.GL11.*
 
 import sandbox.ui.Window
-import sandbox.models.Rectangle
+import sandbox.nodes.Rectangle
 
 fun main(args: Array<String>) {
     val window = Window(

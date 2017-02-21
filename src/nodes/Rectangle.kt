@@ -1,10 +1,10 @@
-package sandbox.models
+package sandbox.nodes
 
 import org.joml.*
 
 import sandbox.materials.Unshaded
+import sandbox.models.Mesh
 import sandbox.models.Texture
-import sandbox.nodes.VisibleNode
 
 import org.lwjgl.glfw.GLFW.*
 
