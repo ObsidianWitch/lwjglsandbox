@@ -12,7 +12,7 @@ import sandbox.materials.Material
 class Mesh {
     private val indices: IntArray
     private val vertexArray : Int
-    private val material: Material
+    val material: Material
 
     constructor(vertices: FloatArray, indices: IntArray, material: Material) {
         this.indices = indices
@@ -60,7 +60,13 @@ class Mesh {
         glBindBuffer(GL_ARRAY_BUFFER, 0)
     }
 
-    fun render() = material.use {
+    // Renders the current mesh by binding the associated material (shader +
+    // uniforms). Further instructions can be specified through the `f`
+    // parameter. This is useful for example to set more uniforms which are
+    // not directly related to the material (e.g. transformations).
+    fun render(f: Mesh.() -> Unit = {}) = material.use {
+            f()
+
             glBindVertexArray(vertexArray)
             glDrawElements(GL_TRIANGLES, IntBuffer.wrap(indices))
             glBindVertexArray(0)

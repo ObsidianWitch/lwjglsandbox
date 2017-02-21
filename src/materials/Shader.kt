@@ -5,6 +5,7 @@ import java.nio.file.Paths
 import java.nio.FloatBuffer
 import java.util.stream.Collectors
 
+import org.lwjgl.glfw.GLFW.*
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL20.*
 import org.lwjgl.opengl.GL31.*
@@ -55,7 +56,12 @@ class Shader {
         setUniformBufferBinding("global", 0)
     }
 
-    fun bind() { assert(program != 0); glUseProgram(program) }
+    fun bind() {
+        assert(program != 0)
+        glUseProgram(program)
+
+        Shader.globalUniforms.setUniform(0, glfwGetTime().toFloat())
+    }
     fun unbind() { glUseProgram(0) }
     inline fun use(f: Shader.() -> Unit) { bind(); f(); unbind() }
 

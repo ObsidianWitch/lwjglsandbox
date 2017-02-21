@@ -7,6 +7,7 @@ import sandbox.models.Texture
 
 class Rectangle {
     private val mesh: Mesh
+    private val model: Matrix4f
 
     constructor() {
         mesh = Mesh(
@@ -24,15 +25,16 @@ class Rectangle {
             material = Unshaded().apply {
                 diffuseColor   = Vector4f(1.0f, 1.0f, 0.0f, 1.0f)
                 diffuseTexture = Texture("resources/wall.jpg")
-                transform      = Matrix4f().apply {
-                    rotateZ(Math.toRadians(90.0).toFloat())
-                    scale(1.0f, 0.5f, 1.0f)
-                }
             }
         )
+
+        model = Matrix4f().apply {
+            rotateZ(Math.toRadians(90.0).toFloat())
+            scale(1.0f, 0.5f, 1.0f)
+        }
     }
 
-    fun render() {
-        mesh.render()
+    fun render() = mesh.render {
+        material.shader.setUniform("model", model)
     }
 }

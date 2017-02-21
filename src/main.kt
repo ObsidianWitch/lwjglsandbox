@@ -13,7 +13,7 @@ fun main(args: Array<String>) {
     )
 
     val rectangle = Rectangle()
-    glClearColor(1.0f, 0.0f, 0.0f, 0.0f)
+    glClearColor(0.2f, 0.2f, 0.2f, 1.0f)
 
     window.loop() {
         glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT)
