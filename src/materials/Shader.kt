@@ -7,9 +7,14 @@ import java.util.stream.Collectors
 
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL20.*
+import org.lwjgl.opengl.GL31.*
 import org.joml.*
 
 class Shader {
+    companion object {
+        val globalUniforms: GlobalUniforms = GlobalUniforms()
+    }
+
     private var program: Int = 0
     private val shaders: MutableList<Int> = mutableListOf()
     private val uniforms: MutableMap<String, Int> = mutableMapOf()
@@ -45,18 +50,31 @@ class Shader {
 
         shaders.forEach { glDeleteShader(it) }
         shaders.clear()
+
+        // Bind global Uniform Buffer to binding point 0 of this shader program.
+        setUniformBufferBinding("global", 0)
     }
 
     fun bind() { assert(program != 0); glUseProgram(program) }
     fun unbind() { glUseProgram(0) }
     inline fun use(f: Shader.() -> Unit) { bind(); f(); unbind() }
 
+    // Retrieves the uniform (identified by `name`) location.
+    // The first call asks OpenGL for the location, subsequent calls retrieve
+    // the location from the `uniforms` map.
     private fun uniformLocation(name: String) : Int {
         if (uniforms.contains(name)) { return uniforms[name]!! }
 
         val id = glGetUniformLocation(program, name)
         uniforms.put(name, id)
         return id
+    }
+
+    // Tells the shader program at which binding point the Uniform Buffer
+    // (identified by `name`) should be found.
+    fun setUniformBufferBinding(name: String, bindingPoint: Int) {
+        val globalIndex = glGetUniformBlockIndex(program, name)
+        glUniformBlockBinding(program, globalIndex, bindingPoint)
     }
 
     fun setUniform(name: String, value: Int) {
