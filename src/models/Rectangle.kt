@@ -4,11 +4,11 @@ import org.joml.*
 
 import sandbox.materials.Unshaded
 import sandbox.models.Texture
-import sandbox.nodes.Node
+import sandbox.nodes.VisibleNode
 
 import org.lwjgl.glfw.GLFW.*
 
-class Rectangle : Node {
+class Rectangle : VisibleNode {
     constructor() : super() {
         mesh = Mesh(
             vertices = floatArrayOf(

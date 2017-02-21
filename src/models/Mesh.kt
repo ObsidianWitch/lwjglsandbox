@@ -60,8 +60,7 @@ class Mesh {
         glBindBuffer(GL_ARRAY_BUFFER, 0)
     }
 
-    fun render(f: Mesh.() -> Unit) = material.use {
-        f()
+    fun draw() {
         glBindVertexArray(vertexArray)
         glDrawElements(GL_TRIANGLES, IntBuffer.wrap(indices))
         glBindVertexArray(0)
