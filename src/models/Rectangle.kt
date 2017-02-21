@@ -22,8 +22,12 @@ class Rectangle {
                 1, 2, 3    // Second Triangle
             ),
             material = Unshaded().apply {
-                diffuseColor = Vector4f(1.0f, 1.0f, 0.0f, 1.0f)
+                diffuseColor   = Vector4f(1.0f, 1.0f, 0.0f, 1.0f)
                 diffuseTexture = Texture("resources/wall.jpg")
+                transform      = Matrix4f().apply {
+                    rotateZ(Math.toRadians(90.0).toFloat())
+                    scale(1.0f, 0.5f, 1.0f)
+                }
             }
         )
     }

@@ -1,12 +1,13 @@
 package sandbox.materials
 
 import org.joml.Vector4f
+import org.joml.Matrix4f
 import org.lwjgl.opengl.GL13.*
 import org.lwjgl.opengl.GL20.*
 
 import sandbox.models.Texture
 
-class Unshaded : Material() {
+class Unshaded : Material {
     override protected val shader: Shader = Shader().apply {
        add(GL_VERTEX_SHADER, "src/materials/unshaded/Unshaded.vs")
        add(GL_FRAGMENT_SHADER, "src/materials/unshaded/Unshaded.fs")
@@ -27,6 +28,16 @@ class Unshaded : Material() {
             setUniform("material.hasDiffuseTexture", 1)
             setUniform("material.diffuseTexture", 0)
         }
+
+    var transform: Matrix4f
+        set(value) = shader.use {
+            field = value
+            setUniform("transform", field)
+        }
+
+    constructor() : super() {
+        transform = Matrix4f() // assign default value through setter
+    }
 
     override fun bind() {
         super.bind()
