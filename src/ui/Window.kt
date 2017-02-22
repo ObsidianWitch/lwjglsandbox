@@ -12,12 +12,16 @@ class Window {
     private val handle: Long
     private val debug: Boolean
     val callbacks: Callbacks
+    val width: Int
+    val height: Int
 
     constructor(width: Int, height: Int) {
         debug = (System.getProperty("debug") != null)
         handle = initGLFW(width, height)
         initOpenGL(width, height)
         callbacks = initCallbacks()
+        this.width = width
+        this.height = height
     }
 
     private fun initGLFW(width: Int, height: Int) : Long {

@@ -27,8 +27,6 @@ class Rectangle : VisibleNode {
                 diffuseTexture = Texture("resources/wall.jpg")
             }
         )
-
-        modelMatrix.scale(0.1f, 1.0f, 1.0f)
     }
 
     override fun update(f: () -> Unit) = super.update {
