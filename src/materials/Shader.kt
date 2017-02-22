@@ -13,10 +13,10 @@ import org.joml.*
 
 class Shader {
     companion object {
-        val globalUniforms: GlobalUniforms = GlobalUniforms()
+        val globalUniforms: UniformBuffer = UniformBuffer(bindingPoint = 0)
     }
 
-    private var program: Int = 0
+    val program: Int = glCreateProgram()
     private val shaders: MutableList<Int> = mutableListOf()
     private val uniforms: MutableMap<String, Int> = mutableMapOf()
 
@@ -38,8 +38,6 @@ class Shader {
     }
 
     fun link() {
-        program = glCreateProgram()
-
         shaders.forEach { glAttachShader(program, it) }
 
         glLinkProgram(program)
@@ -52,15 +50,14 @@ class Shader {
         shaders.forEach { glDeleteShader(it) }
         shaders.clear()
 
-        // Bind global Uniform Buffer to binding point 0 of this shader program.
-        setUniformBufferBinding("global", 0)
+        // Associate the current shader program with the `global` uniform buffer.
+        globalUniforms.associate(this, "global")
     }
 
     fun bind() {
         assert(program != 0)
+        globalUniforms.setUniform(0, glfwGetTime().toFloat())
         glUseProgram(program)
-
-        Shader.globalUniforms.setUniform(0, glfwGetTime().toFloat())
     }
     fun unbind() { glUseProgram(0) }
     inline fun use(f: Shader.() -> Unit) { bind(); f(); unbind() }
@@ -74,13 +71,6 @@ class Shader {
         val id = glGetUniformLocation(program, name)
         uniforms.put(name, id)
         return id
-    }
-
-    // Tells the shader program at which binding point the Uniform Buffer
-    // (identified by `name`) should be found.
-    fun setUniformBufferBinding(name: String, bindingPoint: Int) {
-        val globalIndex = glGetUniformBlockIndex(program, name)
-        glUniformBlockBinding(program, globalIndex, bindingPoint)
     }
 
     fun setUniform(name: String, value: Int) {
