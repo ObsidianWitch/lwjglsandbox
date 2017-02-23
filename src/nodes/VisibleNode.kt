@@ -17,7 +17,7 @@ abstract class VisibleNode : Node() {
     // to the material (e.g. transformations).
     override fun update(f: () -> Unit) = mesh.material.use {
         f()
-        mesh.material.shader.setUniform("model", finalModelMatrix)
+        mesh.material.shader.setUniform("model", finalModel)
         mesh.draw()
     }
 }

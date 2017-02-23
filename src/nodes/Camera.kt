@@ -43,9 +43,8 @@ class Camera : Node {
         fov: Float = Math.toRadians(45.0).toFloat(),
         zNear: Float = 0.01f,
         zFar: Float = 100.0f
-
     ) : super() {
-        modelMatrix.translate(position)
+        model.translate(position)
         this.target = target
         this.aspect = aspect
         this.targetOffset = targetOffset

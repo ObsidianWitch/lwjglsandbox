@@ -30,7 +30,7 @@ class Rectangle : VisibleNode {
     }
 
     override fun update(f: () -> Unit) = super.update {
-        localMatrix.apply {
+        tmpModel.apply {
             identity()
             rotateZ(glfwGetTime().toFloat())
         }
