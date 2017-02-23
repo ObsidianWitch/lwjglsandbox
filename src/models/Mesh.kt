@@ -32,32 +32,26 @@ class Mesh {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBuffer)
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices, GL_STATIC_DRAW)
 
-        // Vertex attribute pointers
-        // vertices positions at index 0
-        glVertexAttribPointer(
-            0,        // index
-            3,        // size
-            GL_FLOAT, // type
-            false,    // normalized
-            4 * 5,    // stride, sizeof(GL_FLOAT) * 5 elements for one vertex
-            0         // pointer/offset
-        )
-        glEnableVertexAttribArray(0)
-
-        // vertices positions at index 1
-        glVertexAttribPointer(
-            1,        // index
-            2,        // size
-            GL_FLOAT, // type
-            false,    // normalized
-            4 * 5,    // stride, sizeof(GL_FLOAT) * 5 elements for one vertex
-            4 * 3     // pointer/offset, sizeof(GL_FLOAT) * 3 elements before
-        )
-        glEnableVertexAttribArray(1)
+        setAttributePointers()
 
         // Unbind vertex array & buffers
         glBindVertexArray(0)
         glBindBuffer(GL_ARRAY_BUFFER, 0)
+    }
+
+    // Specifies the location and data format of vertex attribute arrays,
+    // and enables them.
+    private fun setAttributePointers() {
+        val vertexSize = 5 * 4
+
+        // positions
+        // index, size, type, normalized, stride, offset
+        glVertexAttribPointer(0, 3, GL_FLOAT, false, vertexSize, 0)
+        glEnableVertexAttribArray(0)
+
+        // texture coordinates
+        glVertexAttribPointer(1, 2, GL_FLOAT, false, vertexSize, 3 * 4)
+        glEnableVertexAttribArray(1)
     }
 
     fun draw() {

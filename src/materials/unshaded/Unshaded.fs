@@ -8,23 +8,27 @@ struct Material {
     sampler2D diffuseTexture;
 };
 
-in vec2 fsTextureCoordinates;
+in VertexData {
+    vec3 position;
+    vec2 uv;
+} fs;
 
-out vec4 outColor;
 
 uniform Material material;
 
+out vec4 color;
+
 void main() {
-    vec4 color = vec4(1.0f);
+    vec4 tmpColor = vec4(1.0f);
 
     if (material.hasDiffuseColor) {
-        color *= material.diffuseColor;
+        tmpColor *= material.diffuseColor;
     }
 
     if (material.hasDiffuseTexture) {
-        color *= texture(material.diffuseTexture, fsTextureCoordinates);
+        tmpColor *= texture(material.diffuseTexture, fs.uv);
     }
 
-    outColor = color;
+    color = tmpColor;
 }
 
