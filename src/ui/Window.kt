@@ -54,7 +54,9 @@ class Window {
 
     private fun initOpenGL(width: Int, height: Int) {
         GL.createCapabilities()
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f)
         glViewport(0, 0, width, height)
+        glEnable(GL_DEPTH_TEST);
 
         if (debug) { GLUtil.setupDebugMessageCallback() }
     }
@@ -73,7 +75,11 @@ class Window {
     fun loop(instructions: () -> Unit) {
         while (!glfwWindowShouldClose(handle)) {
             glfwPollEvents()
+
+            glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT)
+
             instructions()
+
             glfwSwapBuffers(handle)
         }
     }
