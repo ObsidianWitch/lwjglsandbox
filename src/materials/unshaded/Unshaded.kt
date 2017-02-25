@@ -24,9 +24,8 @@ class Unshaded : Material() {
     var diffuseTexture: Texture? = null
         set(value) = shader.use {
             field = value
-            field!!.unit = GL_TEXTURE0
             setUniform("material.hasDiffuseTexture", 1)
-            setUniform("material.diffuseTexture", 0)
+            setUniform("material.diffuseTexture", field!!.unit - GL_TEXTURE0)
         }
 
     override fun bind() {

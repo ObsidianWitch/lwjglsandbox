@@ -15,9 +15,12 @@ class Texture {
 
     private val id: Int
     private val path: String
-    var unit: Int
 
-    constructor(path: String, unit: Int = GL_TEXTURE0) {
+    val unit: Int
+
+    constructor(path: String, unit: Int) {
+        assert(unit >= GL_TEXTURE0 && unit <= GL_TEXTURE31)
+
         this.path = path
         this.unit = unit
 
