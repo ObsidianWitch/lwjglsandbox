@@ -1,6 +1,6 @@
 package sandbox.models
 
-import java.nio.IntBuffer
+import kotlin.properties.Delegates
 
 import org.lwjgl.opengl.GL11.*
 import org.lwjgl.opengl.GL15.*
@@ -10,15 +10,38 @@ import org.lwjgl.opengl.GL30.*
 import sandbox.materials.Material
 
 class Mesh {
-    private val vertexArray: Int
-    private val indicesSize: Int
+    companion object {
+        private val loadedMeshes: MutableList<Mesh> = mutableListOf()
+    }
+
+    private val path: String
+    private var vertexArray: Int by Delegates.notNull()
+    private var indicesSize: Int
 
     val material: Material
 
-    constructor(vertices: FloatArray, indices: IntArray, material: Material) {
-        this.indicesSize = indices.size
-        this.material    = material
+    constructor(path: String, material: Material) {
+        this.path = path
+        this.material = material
 
+        // Only load the mesh if it has not already been loaded.
+        val existingMesh = loadedMeshes
+                         .filter { it.path == this.path }
+                         .firstOrNull()
+
+        if (existingMesh != null) {
+            this.vertexArray = existingMesh.vertexArray
+            this.indicesSize = existingMesh.indicesSize
+        } else {
+            val mesh = MeshLoader(path)
+            this.indicesSize = mesh.indices.size
+
+            createBuffers(mesh.vertices, mesh.indices)
+            loadedMeshes.add(this)
+        }
+    }
+
+    private fun createBuffers(vertices: FloatArray, indices: IntArray) {
         // Generate and bind vertex array
         vertexArray = glGenVertexArrays()
         glBindVertexArray(vertexArray)

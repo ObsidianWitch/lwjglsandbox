@@ -37,7 +37,7 @@ class Texture {
     // Minifying filter: linear mipmap, linear texel.
     // Magnifying filter: linear filtering (interpolates values from
     // neighbouring texels).
-    fun load() : Int {
+    private fun load() : Int {
         val width = BufferUtils.createIntBuffer(1)
         val height = BufferUtils.createIntBuffer(1)
         val channels = BufferUtils.createIntBuffer(1)
