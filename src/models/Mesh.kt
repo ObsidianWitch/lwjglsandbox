@@ -10,13 +10,14 @@ import org.lwjgl.opengl.GL30.*
 import sandbox.materials.Material
 
 class Mesh {
-    private val indices: IntArray
-    private val vertexArray : Int
+    private val vertexArray: Int
+    private val indicesSize: Int
+
     val material: Material
 
     constructor(vertices: FloatArray, indices: IntArray, material: Material) {
-        this.indices = indices
-        this.material = material
+        this.indicesSize = indices.size
+        this.material    = material
 
         // Generate and bind vertex array
         vertexArray = glGenVertexArrays()
@@ -37,6 +38,7 @@ class Mesh {
         // Unbind vertex array & buffers
         glBindVertexArray(0)
         glBindBuffer(GL_ARRAY_BUFFER, 0)
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0)
     }
 
     // Specifies the location and data format of vertex attribute arrays,
@@ -56,7 +58,7 @@ class Mesh {
 
     fun draw() {
         glBindVertexArray(vertexArray)
-        glDrawElements(GL_TRIANGLES, IntBuffer.wrap(indices))
+        glDrawElements(GL_TRIANGLES, indicesSize, GL_UNSIGNED_INT, 0)
         glBindVertexArray(0)
     }
 }

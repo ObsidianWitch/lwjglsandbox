@@ -55,7 +55,6 @@ class Shader {
     }
 
     fun bind() {
-        assert(program != 0)
         globalUniforms.setUniform(0, glfwGetTime().toFloat())
         glUseProgram(program)
     }
