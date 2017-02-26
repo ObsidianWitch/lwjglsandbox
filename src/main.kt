@@ -24,7 +24,7 @@ fun main(args: Array<String>) {
     window.loop() {
         camera.update()
 
-        cube.tmpModel.apply {
+        cube.tmpLocal.apply {
             identity()
             rotateY(glfwGetTime().toFloat())
         }
