@@ -1,10 +1,13 @@
 buildscript {
     ext {
-        kotlin_version = '1.0.0'
+        kotlin_version = '1.1.0-rc-91'
         lwjgl_version = '3.1.1'
         joml_version = "1.9.2"
     }
-    repositories { mavenCentral() }
+    repositories {
+        mavenCentral()
+        maven { url "https://dl.bintray.com/kotlin/kotlin-eap-1.1" }
+    }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
@@ -16,7 +19,10 @@ sourceSets { main.kotlin.srcDirs += 'src' }
 apply plugin: 'application'
 mainClassName = 'sandbox.MainKt'
 
-repositories { mavenCentral() }
+repositories {
+    mavenCentral()
+    maven { url "https://dl.bintray.com/kotlin/kotlin-eap-1.1" }
+}
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile "org.lwjgl:lwjgl:${lwjgl_version}"
