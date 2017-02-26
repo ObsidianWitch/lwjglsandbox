@@ -4,7 +4,7 @@ import org.lwjgl.glfw.GLFW.*
 import org.lwjgl.opengl.GL11.*
 
 import sandbox.ui.Window
-import sandbox.nodes.Rectangle
+import sandbox.nodes.Cube
 import sandbox.nodes.Camera
 
 fun main(args: Array<String>) {
@@ -13,16 +13,22 @@ fun main(args: Array<String>) {
         height = 600
     )
 
-    val rectangle = Rectangle()
+    val cube = Cube()
+    cube.model.rotateX(Math.toRadians(45.0).toFloat())
 
     val camera = Camera(
-        target = rectangle,
+        target = cube,
         aspect = window.width.toFloat() / window.height
     )
 
     window.loop() {
         camera.update()
-        rectangle.update()
+
+        cube.tmpModel.apply {
+            identity()
+            rotateY(glfwGetTime().toFloat())
+        }
+        cube.update()
     }
 
     glfwTerminate()

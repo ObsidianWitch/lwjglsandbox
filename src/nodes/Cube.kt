@@ -9,10 +9,10 @@ import sandbox.models.Texture
 import org.lwjgl.glfw.GLFW.*
 import org.lwjgl.opengl.GL13.*
 
-class Rectangle : VisibleNode {
+class Cube : VisibleNode {
     constructor() : super() {
         mesh = Mesh(
-            path = "resources/rectangle.obj",
+            path = "resources/cube.obj",
             material = Unshaded().apply {
                 diffuseColor   = Vector4f(1.0f, 1.0f, 0.0f, 1.0f)
                 diffuseTexture = Texture(
@@ -21,12 +21,5 @@ class Rectangle : VisibleNode {
                 )
             }
         )
-    }
-
-    override fun update(f: () -> Unit) = super.update {
-        tmpModel.apply {
-            identity()
-            rotateZ(glfwGetTime().toFloat())
-        }
     }
 }

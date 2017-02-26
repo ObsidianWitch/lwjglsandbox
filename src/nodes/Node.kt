@@ -8,11 +8,11 @@ import org.joml.Matrix4f
 abstract class Node {
     // This matrix is used to apply temporary transformations to the model
     // (e.g. modify the model over time).
-    protected val tmpModel: Matrix4f = Matrix4f()
+    val tmpModel: Matrix4f = Matrix4f()
 
-    protected val model: Matrix4f = Matrix4f()
+    val model: Matrix4f = Matrix4f()
 
-    protected val finalModel: Matrix4f
+    val finalModel: Matrix4f
         get() = Matrix4f().mul(tmpModel).mul(model)
 
     val position: Vector3f
