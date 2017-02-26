@@ -18,7 +18,7 @@ class Camera : Node {
         get() = Vector3f(target.position).add(targetOffset)
 
     val direction: Vector3f
-        get() = Vector3f(targetPosition).sub(position).normalize()
+        get() = Vector3f(position).sub(targetPosition).normalize()
 
     val right: Vector3f
         get() = Vector3f(direction).cross(0.0f, 1.0f, 0.0f).normalize()
