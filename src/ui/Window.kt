@@ -11,6 +11,7 @@ import org.lwjgl.opengl.GL11.*
 class Window {
     private val handle: Long
     private val debug: Boolean
+
     val callbacks: Callbacks
     val width: Int
     val height: Int
@@ -63,13 +64,15 @@ class Window {
 
     private fun initCallbacks() : Callbacks {
         val callbacks = Callbacks(handle)
-        callbacks.addKeyCallback { window, key, scancode, action, mods ->
-            if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE ) {
-                glfwSetWindowShouldClose(window, true)
-            }
-        }
-
+        callbacks.keyCallbacks.add(keyCallback())
         return callbacks
+    }
+
+    private fun keyCallback() : KeyCallback = {
+        window, key, _, action, _ ->
+        if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE ) {
+            glfwSetWindowShouldClose(window, true)
+        }
     }
 
     fun loop(instructions: () -> Unit) {
