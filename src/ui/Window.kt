@@ -85,5 +85,7 @@ class Window {
 
             glfwSwapBuffers(handle)
         }
+
+        glfwTerminate()
     }
 }

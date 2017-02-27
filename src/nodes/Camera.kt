@@ -39,7 +39,7 @@ class Camera : Node {
         target: Node,
         aspect: Float,
         targetOffset: Vector3f = Vector3f(0.0f, 0.0f, 0.0f),
-        position: Vector3f = Vector3f(0.0f, 0.0f, -10.0f),
+        position: Vector3f = Vector3f(0.0f, target.position.y(), -10.0f),
         fov: Float = Math.toRadians(45.0).toFloat(),
         zNear: Float = 0.01f,
         zFar: Float = 100.0f

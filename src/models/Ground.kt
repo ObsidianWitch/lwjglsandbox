@@ -9,14 +9,13 @@ import sandbox.models.Texture
 import org.lwjgl.glfw.GLFW.*
 import org.lwjgl.opengl.GL13.*
 
-class Cube : VisibleNode {
+class Ground : VisibleNode {
     constructor() : super() {
         mesh = Mesh(
-            path = "resources/cube/cube.obj",
+            path = "resources/ground/ground.obj",
             material = Unshaded().apply {
-                diffuseColor   = Vector4f(1.0f, 1.0f, 0.0f, 1.0f)
                 diffuseTexture = Texture(
-                    path = "resources/cube/wall.jpg",
+                    path = "resources/ground/ground.jpg",
                     unit = GL_TEXTURE0
                 )
             }

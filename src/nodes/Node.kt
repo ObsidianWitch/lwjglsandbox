@@ -5,7 +5,7 @@ import org.joml.Matrix4f
 
 // A Node represent an element in the scene. It has a position in the world,
 // and thus can be transformed (e.g. translation, rotation, scaling).
-abstract class Node {
+open class Node {
     // Handles temporary local transformations (e.g. rotate the Node over time).
     val tmpLocal: Matrix4f = Matrix4f()
 
@@ -18,5 +18,5 @@ abstract class Node {
         get() = finalModel.getTranslation(Vector3f())
 
     // Updates the node.
-    abstract fun update(f: () -> Unit = {})
+    open fun update(f: () -> Unit = {}) { f() }
 }

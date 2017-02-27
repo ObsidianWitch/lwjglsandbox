@@ -7,8 +7,8 @@ import org.joml.Matrix4f
 import sandbox.models.Mesh
 
 // A VisibleNode is a Node containing a mesh.
-abstract class VisibleNode : Node() {
-    protected var mesh: Mesh by Delegates.notNull()
+open class VisibleNode : Node() {
+    var mesh: Mesh by Delegates.notNull()
 
     // Updates the node. If a mesh is associated with the node, renders it by
     // binding the associated material (shader + uniforms).
