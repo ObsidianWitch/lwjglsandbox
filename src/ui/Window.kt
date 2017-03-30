@@ -9,12 +9,12 @@ import org.lwjgl.system.*
 import org.lwjgl.opengl.GL11.*
 
 class Window {
-    private val handle: Long
-    private val debug: Boolean
-
     val callbacks: Callbacks
     val width: Int
     val height: Int
+
+    private val handle: Long
+    private val debug: Boolean
 
     constructor(width: Int, height: Int) {
         debug = (System.getProperty("debug") != null)
@@ -64,11 +64,11 @@ class Window {
 
     private fun initCallbacks() : Callbacks {
         val callbacks = Callbacks(handle)
-        callbacks.keyCallbacks.add(keyCallback())
+        callbacks.keyCallbacks.add(keyCallback)
         return callbacks
     }
 
-    private fun keyCallback() : KeyCallback = {
+    private val keyCallback: KeyCallback get() = {
         window, key, _, action, _ ->
         if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE ) {
             glfwSetWindowShouldClose(window, true)

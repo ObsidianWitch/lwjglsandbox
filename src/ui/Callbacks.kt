@@ -11,18 +11,18 @@ typealias KeyCallback = (
 ) -> Unit
 
 class Callbacks {
-    private val handle: Long
-
     val keyCallbacks: MutableList<KeyCallback>
+
+    private val handle: Long
 
     constructor(handle: Long) {
         this.handle = handle
         this.keyCallbacks = mutableListOf()
 
-        glfwSetKeyCallback(handle, keyHandler())
+        glfwSetKeyCallback(handle, keyHandler)
     }
 
-    private fun keyHandler() : GLFWKeyCallback = object : GLFWKeyCallback() {
+    private val keyHandler get() = object : GLFWKeyCallback() {
         override fun invoke(
             window: Long, key: Int, scancode: Int, action: Int, mods: Int
         ) {
