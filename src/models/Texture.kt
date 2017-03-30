@@ -42,7 +42,7 @@ class Texture {
         val height = BufferUtils.createIntBuffer(1)
         val channels = BufferUtils.createIntBuffer(1)
 
-        stbi_set_flip_vertically_on_load(true)
+        stbi_set_flip_vertically_on_load(false)
         val image = stbi_load(path, width, height, channels, 4)
         if (image == null) {
             throw RuntimeException("Texture $path could not be loaded.")
