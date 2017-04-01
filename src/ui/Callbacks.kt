@@ -14,6 +14,10 @@ typealias MouseButtonCallback = (
     window: Long, button: Int, action: Int, mods: Int
 ) -> Unit
 
+typealias cursorPositionCallback = (
+    window: Long, xpos: Double, ypos: Double
+) -> Unit
+
 typealias ScrollCallback = (
     window: Long, xoffset: Double, yoffset: Double
 ) -> Unit
@@ -21,6 +25,7 @@ typealias ScrollCallback = (
 class Callbacks {
     val keyCallbacks: MutableList<KeyCallback>
     val mouseButtonCallbacks: MutableList<MouseButtonCallback>
+    val cursorPositionCallbacks: MutableList<cursorPositionCallback>
     val scrollCallbacks: MutableList<ScrollCallback>
 
     private val handle: Long
@@ -29,9 +34,12 @@ class Callbacks {
         this.handle = handle
         this.keyCallbacks = mutableListOf()
         this.mouseButtonCallbacks = mutableListOf()
+        this.cursorPositionCallbacks = mutableListOf()
         this.scrollCallbacks = mutableListOf()
 
         glfwSetKeyCallback(handle, keyHandler)
+        glfwSetMouseButtonCallback(handle, mouseButtonHandler)
+        glfwSetCursorPosCallback(handle, cursorPositionHandler)
         glfwSetScrollCallback(handle, scrollHandler)
     }
 
@@ -48,6 +56,14 @@ class Callbacks {
             window: Long, button: Int, action: Int, mods: Int
         ) {
             mouseButtonCallbacks.forEach { it(window, button, action, mods) }
+        }
+    }
+
+    private val cursorPositionHandler get() = object : GLFWCursorPosCallback() {
+        override fun invoke(
+            window: Long, xpos: Double, ypos: Double
+        ) {
+            cursorPositionCallbacks.forEach { it(window, xpos, ypos) }
         }
     }
 
