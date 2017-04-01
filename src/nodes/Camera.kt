@@ -64,7 +64,6 @@ class Camera : Node {
         val newPosition = Vector3f(position).add(zoomVec)
         val distanceToTarget = newPosition.distance(targetPosition)
 
-
         if (distanceToTarget > MIN_ZOOM && distanceToTarget < MAX_ZOOM) {
             model.translate(zoomVec)
         }
