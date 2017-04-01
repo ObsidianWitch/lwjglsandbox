@@ -4,6 +4,7 @@ import org.lwjgl.glfw.GLFW.*
 
 import sandbox.ui.Window
 import sandbox.nodes.Camera
+import sandbox.nodes.CameraCallbacks
 import sandbox.nodes.Ground
 import sandbox.nodes.Player
 
@@ -28,7 +29,11 @@ class Scene {
             aspect = window.width.toFloat() / window.height
         )
 
-        window.callbacks.scrollCallbacks.add(camera.scrollCallback)
+        val cameraCallbacks = CameraCallbacks(camera)
+
+        window.callbacks.apply {
+            scrollCallbacks.add(cameraCallbacks.scrollCallback)
+        }
     }
 
     fun update() {
