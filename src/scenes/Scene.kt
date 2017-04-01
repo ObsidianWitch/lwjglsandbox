@@ -27,6 +27,8 @@ class Scene {
             target = player,
             aspect = window.width.toFloat() / window.height
         )
+
+        window.callbacks.scrollCallbacks.add(camera.scrollCallback)
     }
 
     fun update() {

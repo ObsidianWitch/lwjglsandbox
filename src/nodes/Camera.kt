@@ -4,9 +4,15 @@ import org.joml.Vector3f
 import org.joml.Matrix4f
 
 import sandbox.materials.Shader
+import sandbox.ui.ScrollCallback
 
 // Creates a perspective Camera which holds the view & projection matrices.
 class Camera : Node {
+    companion object {
+        private val MIN_ZOOM = 1.0f
+        private val MAX_ZOOM = 10.0f
+    }
+
     val target: Node
     val targetOffset: Vector3f
     val aspect: Float
@@ -39,7 +45,7 @@ class Camera : Node {
         target: Node,
         aspect: Float,
         targetOffset: Vector3f = Vector3f(0.0f, 0.0f, 0.0f),
-        position: Vector3f = Vector3f(0.0f, target.position.y(), -10.0f),
+        position: Vector3f = Vector3f(0.0f, target.position.y(), -5.0f),
         fov: Float = Math.toRadians(45.0).toFloat(),
         zNear: Float = 0.01f,
         zFar: Float = 100.0f
@@ -51,6 +57,21 @@ class Camera : Node {
         this.fov = fov
         this.zNear = zNear
         this.zFar = zFar
+    }
+
+    private fun zoom(value: Float) {
+        val zoomVec = direction.mul(-value)
+        val newPosition = Vector3f(position).add(zoomVec)
+        val distanceToTarget = newPosition.distance(targetPosition)
+
+
+        if (distanceToTarget > MIN_ZOOM && distanceToTarget < MAX_ZOOM) {
+            model.translate(zoomVec)
+        }
+    }
+
+    val scrollCallback: ScrollCallback get() = {
+        _, _, yoffset -> zoom(yoffset.toFloat())
     }
 
     override fun update(f: () -> Unit) {
