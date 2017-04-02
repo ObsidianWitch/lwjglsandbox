@@ -1,5 +1,6 @@
 package sandbox.nodes
 
+import org.joml.Vector2d
 import org.joml.Vector3f
 import org.joml.Matrix4f
 
@@ -8,8 +9,10 @@ import sandbox.materials.Shader
 // Creates a perspective Camera which holds the view & projection matrices.
 class Camera : Node {
     companion object {
-        private val MIN_ZOOM = 1.0f
-        private val MAX_ZOOM = 10.0f
+        private val MIN_ZOOM  = 1.0f
+        private val MAX_ZOOM  = 5.0f
+        private val MIN_PITCH = -15.0f
+        private val MAX_PITCH = 30.0f
     }
 
     val target: Node
@@ -44,7 +47,7 @@ class Camera : Node {
         target: Node,
         aspect: Float,
         targetOffset: Vector3f = Vector3f(0.0f, 0.0f, 0.0f),
-        position: Vector3f = Vector3f(0.0f, target.position.y(), -5.0f),
+        position: Vector3f = Vector3f(0.0f, 0.0f, 0.0f),
         fov: Float = Math.toRadians(45.0).toFloat(),
         zNear: Float = 0.01f,
         zFar: Float = 100.0f
@@ -59,12 +62,55 @@ class Camera : Node {
     }
 
     fun zoom(value: Float) {
-        val zoomVec = direction.mul(-value)
-        val newPosition = Vector3f(position).add(zoomVec)
-        val distanceToTarget = newPosition.distance(targetPosition)
+        val zoomVec = direction.mul(value)
+        val distanceToTarget = position.add(zoomVec).distance(targetPosition)
 
         if (distanceToTarget > MIN_ZOOM && distanceToTarget < MAX_ZOOM) {
             model.translate(zoomVec)
+        }
+    }
+
+    // Rotates the camera (represented by its `position`) by `angle` around
+    // an `axis` with `targetPosition` as the rotation center.
+    private fun rotate(angle: Float, axis: Vector3f) {
+        val newPosition = position
+        Matrix4f().translate(targetPosition)
+                  .rotate(
+                      angle,  // Angle
+                      axis.x, // Axis x
+                      axis.y, // Axis y
+                      axis.z  // Axis z
+                  )
+                  .translate(targetPosition.negate())
+                  .transformPosition(newPosition)
+
+        model.translate(newPosition.sub(position))
+    }
+
+    // Rotates the camera around its `up` vector with `targetPosition` as the
+    // rotation center.
+    fun yaw(deltax: Double) {
+        rotate(
+            angle = Math.toRadians(deltax).toFloat(),
+            axis  = up
+        )
+    }
+
+    // Rotates the camera around its `right` vector with `targetPosition` as the
+    // rotation center.
+    // pitch = atan(direction.y / direction.length) where direction is a
+    // normalized vector
+    // pitch = atan(direction.y) = asin(direction.y)
+    fun pitch(deltay: Double) {
+        val pitch = Math.toDegrees(
+            Math.atan(direction.y.toDouble())
+        ) + deltay
+
+        if (pitch > MIN_PITCH && pitch < MAX_PITCH) {
+            rotate(
+                angle = Math.toRadians(deltay).toFloat(),
+                axis  = right
+            )
         }
     }
 

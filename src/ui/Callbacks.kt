@@ -14,7 +14,7 @@ typealias MouseButtonCallback = (
     window: Long, button: Int, action: Int, mods: Int
 ) -> Unit
 
-typealias cursorPositionCallback = (
+typealias CursorPositionCallback = (
     window: Long, xpos: Double, ypos: Double
 ) -> Unit
 
@@ -25,7 +25,7 @@ typealias ScrollCallback = (
 class Callbacks {
     val keyCallbacks: MutableList<KeyCallback>
     val mouseButtonCallbacks: MutableList<MouseButtonCallback>
-    val cursorPositionCallbacks: MutableList<cursorPositionCallback>
+    val cursorPositionCallbacks: MutableList<CursorPositionCallback>
     val scrollCallbacks: MutableList<ScrollCallback>
 
     private val handle: Long

@@ -1,6 +1,7 @@
 package sandbox.scenes
 
 import org.lwjgl.glfw.GLFW.*
+import org.joml.Vector3f
 
 import sandbox.ui.Window
 import sandbox.nodes.Camera
@@ -25,14 +26,18 @@ class Scene {
         }
 
         this.camera = Camera(
-            target = player,
-            aspect = window.width.toFloat() / window.height
+            target       = player,
+            targetOffset = Vector3f(0.0f, 1.5f, 0.0f),
+            position     = Vector3f(0.0f, 1.5f, -2.0f),
+            aspect       = window.width.toFloat() / window.height
         )
 
         val cameraCallbacks = CameraCallbacks(camera)
 
         window.callbacks.apply {
             scrollCallbacks.add(cameraCallbacks.scrollCallback)
+            mouseButtonCallbacks.add(cameraCallbacks.mouseButtonCallback)
+            cursorPositionCallbacks.add(cameraCallbacks.cursorPositionCallback)
         }
     }
 
