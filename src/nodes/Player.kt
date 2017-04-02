@@ -8,6 +8,7 @@ import sandbox.models.Texture
 
 import org.lwjgl.glfw.GLFW.*
 import org.lwjgl.opengl.GL13.*
+import org.joml.Vector3f
 
 class Player : VisibleNode {
     constructor() : super() {
@@ -20,5 +21,15 @@ class Player : VisibleNode {
                 )
             }
         )
+    }
+
+    // Simulates breathing using scaling.
+    override fun update(f: () -> Unit) {
+        super.update(f)
+
+        val scaleVec = Vector3f(1.0f)
+        scaleVec.y += 0.005f * Math.exp(Math.sin(glfwGetTime())).toFloat()
+
+        tmpLocal.identity().scale(Vector3f(scaleVec))
     }
 }
