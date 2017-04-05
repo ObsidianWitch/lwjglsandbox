@@ -6,7 +6,7 @@ import org.joml.Matrix4f
 
 import sandbox.materials.Shader
 
-// Creates a perspective Camera which holds the view & projection matrices.
+// Creates a perspective chase Camera which holds the view & projection matrices.
 class Camera : Node {
     companion object {
         private val MIN_ZOOM  = 1.0f
@@ -75,12 +75,7 @@ class Camera : Node {
     private fun rotate(angle: Float, axis: Vector3f) {
         val newPosition = position
         Matrix4f().translate(targetPosition)
-                  .rotate(
-                      angle,  // Angle
-                      axis.x, // Axis x
-                      axis.y, // Axis y
-                      axis.z  // Axis z
-                  )
+                  .rotate(angle, axis.x, axis.y, axis.z)
                   .translate(targetPosition.negate())
                   .transformPosition(newPosition)
 

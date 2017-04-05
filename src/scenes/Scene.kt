@@ -8,6 +8,7 @@ import sandbox.nodes.Camera
 import sandbox.nodes.CameraCallbacks
 import sandbox.nodes.Ground
 import sandbox.nodes.Player
+import sandbox.nodes.PlayerCallbacks
 
 class Scene {
     private val window: Window
@@ -21,9 +22,13 @@ class Scene {
         this.window = window
 
         this.ground = Ground()
-        this.player = Player().apply {
+
+        this.player = Player(
+            speed = 0.08f
+        ).apply {
             model.rotateY(Math.toRadians(180.0).toFloat())
         }
+        val playerCallbacks = PlayerCallbacks(player)
 
         this.camera = Camera(
             target       = player,
@@ -31,10 +36,12 @@ class Scene {
             position     = Vector3f(0.0f, 1.5f, -2.0f),
             aspect       = window.width.toFloat() / window.height
         )
-
         val cameraCallbacks = CameraCallbacks(camera)
 
         window.callbacks.apply {
+            keyCallbacks.add(playerCallbacks.keyCallback)
+            mouseButtonCallbacks.add(playerCallbacks.mouseButtonCallback)
+
             scrollCallbacks.add(cameraCallbacks.scrollCallback)
             mouseButtonCallbacks.add(cameraCallbacks.mouseButtonCallback)
             cursorPositionCallbacks.add(cameraCallbacks.cursorPositionCallback)
