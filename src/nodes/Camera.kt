@@ -22,6 +22,7 @@ class Camera : Node {
     val zNear: Float
     val zFar: Float
 
+    var oldTargetPosition: Vector3f
     val targetPosition: Vector3f
         get() = Vector3f(target.position).add(targetOffset)
 
@@ -46,8 +47,8 @@ class Camera : Node {
     constructor(
         target: Node,
         aspect: Float,
-        targetOffset: Vector3f = Vector3f(0.0f, 0.0f, 0.0f),
-        position: Vector3f = Vector3f(0.0f, 0.0f, 0.0f),
+        targetOffset: Vector3f = Vector3f(0.0f),
+        position: Vector3f = Vector3f(0.0f),
         fov: Float = Math.toRadians(45.0).toFloat(),
         zNear: Float = 0.01f,
         zFar: Float = 100.0f
@@ -59,6 +60,7 @@ class Camera : Node {
         this.fov = fov
         this.zNear = zNear
         this.zFar = zFar
+        this.oldTargetPosition = targetPosition
     }
 
     fun zoom(value: Float) {
@@ -109,10 +111,19 @@ class Camera : Node {
         }
     }
 
+    // Stores the projection * view matrix in a global uniform shared by all
+    // shaders.
+    // The `oldTargetPösition` purpose is to keep track of the target's moves.
+    // This allows the distance between the camera and the target to remain the
+    // same if the target moves. This is what makes this camera a chasing one.
     override fun update(f: () -> Unit) {
+        model.translate(targetPosition.sub(oldTargetPosition))
+
         Shader.globalUniforms.setUniform(
             offset = 16,
             value  = projectionView
         )
+
+        oldTargetPosition = targetPosition
     }
 }
