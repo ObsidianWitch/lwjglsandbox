@@ -8,19 +8,13 @@ import sandbox.materials.Shader
 
 // Creates a perspective chase Camera which holds the view & projection matrices.
 class Camera : Node {
-    companion object {
-        private val MIN_ZOOM  = 1.0f
-        private val MAX_ZOOM  = 5.0f
-        private val MIN_PITCH = -15.0f
-        private val MAX_PITCH = 30.0f
-    }
-
     val target: Node
     val targetOffset: Vector3f
     val aspect: Float
     val fov: Float
-    val zNear: Float
-    val zFar: Float
+    val zClip: ClosedRange<Float>
+    val zoomRange: ClosedRange<Float>
+    val pitchRange: ClosedRange<Float>
 
     var oldTargetPosition: Vector3f
     val targetPosition: Vector3f
@@ -36,7 +30,9 @@ class Camera : Node {
         get() = Vector3f(right).cross(direction).normalize()
 
     val projection: Matrix4f
-        get() = Matrix4f().perspective(fov, aspect, zNear, zFar)
+        get() = Matrix4f().perspective(
+            fov, aspect, zClip.start, zClip.endInclusive
+        )
 
     val view: Matrix4f
         get() = Matrix4f().lookAt(position, targetPosition, up)
@@ -50,16 +46,18 @@ class Camera : Node {
         targetOffset: Vector3f = Vector3f(0.0f),
         position: Vector3f = Vector3f(0.0f),
         fov: Float = Math.toRadians(45.0).toFloat(),
-        zNear: Float = 0.01f,
-        zFar: Float = 100.0f
+        zClip: ClosedRange<Float> = 0.001f..100.0f,
+        zoomRange: ClosedRange<Float>,
+        pitchRange: ClosedRange<Float>
     ) : super() {
         model.translate(position)
         this.target = target
         this.aspect = aspect
         this.targetOffset = targetOffset
         this.fov = fov
-        this.zNear = zNear
-        this.zFar = zFar
+        this.zClip = zClip
+        this.zoomRange = zoomRange
+        this.pitchRange = pitchRange
         this.oldTargetPosition = targetPosition
     }
 
@@ -67,7 +65,7 @@ class Camera : Node {
         val zoomVec = direction.mul(value)
         val distanceToTarget = position.add(zoomVec).distance(targetPosition)
 
-        if (distanceToTarget > MIN_ZOOM && distanceToTarget < MAX_ZOOM) {
+        if (distanceToTarget in zoomRange) {
             model.translate(zoomVec)
         }
     }
@@ -103,7 +101,7 @@ class Camera : Node {
             Math.atan(direction.y.toDouble())
         ) + deltay
 
-        if (pitch > MIN_PITCH && pitch < MAX_PITCH) {
+        if (pitch in pitchRange) {
             rotate(
                 angle = Math.toRadians(deltay).toFloat(),
                 axis  = right

@@ -34,7 +34,9 @@ class Scene {
             target       = player,
             targetOffset = Vector3f(0.0f, 1.5f, 0.0f),
             position     = Vector3f(0.0f, 1.5f, -2.0f),
-            aspect       = window.width.toFloat() / window.height
+            aspect       = window.width.toFloat() / window.height,
+            zoomRange    = 1.0f..5.0f,
+            pitchRange   = -15.0f..30.0f
         )
         val cameraCallbacks = CameraCallbacks(camera)
 
