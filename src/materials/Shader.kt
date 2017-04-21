@@ -13,7 +13,15 @@ import org.joml.*
 
 class Shader {
     companion object {
-        val globalUniforms: UniformBuffer = UniformBuffer(bindingPoint = 0)
+        // `globalUniforms` stores the following uniforms.
+        // variable        size    offset    accumulated memory    owner
+        // time            4B      0         16B                   Shader
+        // projection*view 64B     16        80B                   Camera
+        // -> accumulated memory = 80B = 20F
+        val globalUniforms: UniformBuffer = UniformBuffer(
+            bindingPoint = 0,
+            size         = 20
+        )
     }
 
     val program: Int = glCreateProgram()

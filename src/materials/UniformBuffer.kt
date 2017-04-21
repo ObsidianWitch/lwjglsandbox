@@ -21,12 +21,14 @@ class UniformBuffer {
     val id: Int
     val bindingPoint: Int
 
-    constructor(bindingPoint: Int) {
+    // `bindingPoint`: index of the uniform buffer
+    // `size`: number of floats the uniform buffer can store
+    constructor(bindingPoint: Int, size: Int) {
         this.id = glGenBuffers()
         this.bindingPoint = bindingPoint
 
         use {
-            glBufferData(GL_UNIFORM_BUFFER, FloatArray(20), GL_DYNAMIC_DRAW)
+            glBufferData(GL_UNIFORM_BUFFER, FloatArray(size), GL_DYNAMIC_DRAW)
             glBindBufferBase(GL_UNIFORM_BUFFER, bindingPoint, id)
         }
     }

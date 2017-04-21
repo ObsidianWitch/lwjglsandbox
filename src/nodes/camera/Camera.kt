@@ -115,6 +115,8 @@ class Camera : Node {
     // This allows the distance between the camera and the target to remain the
     // same if the target moves. This is what makes this camera a chasing one.
     override fun update(f: () -> Unit) {
+        super.update(f)
+
         model.translate(targetPosition.sub(oldTargetPosition))
 
         Shader.globalUniforms.setUniform(
