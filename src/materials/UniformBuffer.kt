@@ -18,12 +18,15 @@ import org.lwjgl.opengl.GL31.*
 // mat4  b;    64B               16        80B
 // mat4  c;    64B               80        144B
 class UniformBuffer {
-    val id: Int
-    val bindingPoint: Int
+    private val name: String
+    private val id: Int
+    private val bindingPoint: Int
 
+    // `name`: name to identify the uniform buffer in shaders
     // `bindingPoint`: index of the uniform buffer
     // `size`: number of floats the uniform buffer can store
-    constructor(bindingPoint: Int, size: Int) {
+    constructor(name: String, bindingPoint: Int, size: Int) {
+        this.name = name
         this.id = glGenBuffers()
         this.bindingPoint = bindingPoint
 
@@ -39,7 +42,7 @@ class UniformBuffer {
 
     // Tells the `shader` program that the uniform block identified by `name` is
     // associated with the current uniform buffer at `this.bindingPoint`.
-    fun associate(shader: Shader, name: String) {
+    fun associate(shader: Shader) {
         val globalIndex = glGetUniformBlockIndex(shader.program, name)
         glUniformBlockBinding(shader.program, globalIndex, bindingPoint)
     }

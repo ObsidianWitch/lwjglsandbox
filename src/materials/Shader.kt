@@ -19,6 +19,7 @@ class Shader {
         // projection*view 64B     16        80B                   Camera
         // -> accumulated memory = 80B = 20F
         val globalUniforms: UniformBuffer = UniformBuffer(
+            name         = "global",
             bindingPoint = 0,
             size         = 20
         )
@@ -59,7 +60,7 @@ class Shader {
         shaders.clear()
 
         // Associate the current shader program with the `global` uniform buffer.
-        globalUniforms.associate(this, "global")
+        globalUniforms.associate(this)
     }
 
     fun bind() {
