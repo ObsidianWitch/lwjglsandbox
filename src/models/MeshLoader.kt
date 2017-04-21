@@ -43,6 +43,11 @@ class MeshLoader {
             vertices.add(position.y())
             vertices.add(position.z())
 
+            val normal = mesh.mNormals()[i]
+            vertices.add(normal.x())
+            vertices.add(normal.y())
+            vertices.add(normal.z())
+
             val uv = mesh.mTextureCoords(0)[i]
             vertices.add(uv.x())
             vertices.add(uv.y())

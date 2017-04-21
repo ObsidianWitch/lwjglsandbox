@@ -67,16 +67,20 @@ class Mesh {
     // Specifies the location and data format of vertex attribute arrays,
     // and enables them.
     private fun setAttributePointers() {
-        val vertexSize = 5 * 4
+        val vertexSize = 8 * 4
 
         // positions
         // index, size, type, normalized, stride, offset
         glVertexAttribPointer(0, 3, GL_FLOAT, false, vertexSize, 0)
         glEnableVertexAttribArray(0)
 
-        // texture coordinates
-        glVertexAttribPointer(1, 2, GL_FLOAT, false, vertexSize, 3 * 4)
+        // normals
+        glVertexAttribPointer(1, 3, GL_FLOAT, false, vertexSize, 3 * 4)
         glEnableVertexAttribArray(1)
+
+        // texture coordinates
+        glVertexAttribPointer(2, 2, GL_FLOAT, false, vertexSize, 6 * 4)
+        glEnableVertexAttribArray(2)
     }
 
     fun draw() {
