@@ -7,18 +7,17 @@ import org.lwjgl.opengl.GL20.*
 
 import sandbox.models.Texture
 
-class Unshaded : Material() {
+class Unshaded : Material {
     override val shader: Shader = Shader().apply {
        add(GL_VERTEX_SHADER, "src/materials/unshaded/Unshaded.vs")
        add(GL_FRAGMENT_SHADER, "src/materials/unshaded/Unshaded.fs")
        link()
     }
 
-    var diffuseColor: Vector4f? = null
+    var diffuseColor: Vector4f
         set(value) = shader.use {
             field = value
-            setUniform("material.hasDiffuseColor", 1)
-            setUniform("material.diffuseColor", field!!)
+            setUniform("material.diffuseColor", field)
         }
 
     var diffuseTexture: Texture? = null
@@ -27,6 +26,10 @@ class Unshaded : Material() {
             setUniform("material.hasDiffuseTexture", 1)
             setUniform("material.diffuseTexture", field!!.unit - GL_TEXTURE0)
         }
+
+    constructor() : super() {
+        diffuseColor = Vector4f(1.0f, 1.0f, 1.0f, 1.0f)
+    }
 
     override fun bind() {
         super.bind()
