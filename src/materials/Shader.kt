@@ -23,6 +23,15 @@ class Shader {
             bindingPoint = 0,
             size         = 20
         )
+
+        // `lightsUniforms` stores the following uniforms.
+        // variable        size    offset    accumulated memory    owner
+        // ambientLight    16B     0         16B                   AmbientLight
+        val lightsUniforms: UniformBuffer = UniformBuffer(
+            name         = "lights",
+            bindingPoint = 1,
+            size         = 4
+        )
     }
 
     val program: Int = glCreateProgram()
@@ -59,8 +68,10 @@ class Shader {
         shaders.forEach { glDeleteShader(it) }
         shaders.clear()
 
-        // Associate the current shader program with the `global` uniform buffer.
+        // Associate the current shader program with the `global` and `lights`
+        // uniform buffers.
         globalUniforms.associate(this)
+        lightsUniforms.associate(this)
     }
 
     fun bind() {

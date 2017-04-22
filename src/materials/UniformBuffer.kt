@@ -1,6 +1,7 @@
 package sandbox.materials
 
 import org.joml.Matrix4f
+import org.joml.Vector4f
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL15.*
 import org.lwjgl.opengl.GL30.*
@@ -41,10 +42,15 @@ class UniformBuffer {
     private inline fun use(f: () -> Unit) { bind(); f(); unbind() }
 
     // Tells the `shader` program that the uniform block identified by `name` is
-    // associated with the current uniform buffer at `this.bindingPoint`.
+    // associated with the current uniform buffer at `bindingPoint`.
     fun associate(shader: Shader) {
         val globalIndex = glGetUniformBlockIndex(shader.program, name)
-        glUniformBlockBinding(shader.program, globalIndex, bindingPoint)
+
+        // Only associate this uniform buffer with the shader program if the
+        // corresponding block (identified by `name`) can be found in it.
+        if (globalIndex >= 0) {
+            glUniformBlockBinding(shader.program, globalIndex, bindingPoint)
+        }
     }
 
     fun setUniform(offset: Long, value: Matrix4f) = use {
@@ -52,9 +58,11 @@ class UniformBuffer {
         glBufferSubData(GL_UNIFORM_BUFFER, offset, value.get(fb))
     }
 
-    fun setUniform(offset: Long, value: FloatArray) = use {
-        glBufferSubData(GL_UNIFORM_BUFFER, offset, value)
+    fun setUniform(offset: Long, value: Vector4f) = use {
+        val fb = BufferUtils.createFloatBuffer(4)
+        glBufferSubData(GL_UNIFORM_BUFFER, offset, value.get(fb))
     }
+
     fun setUniform(offset: Long, value: Float) = use {
         glBufferSubData(GL_UNIFORM_BUFFER, offset, floatArrayOf(value))
     }
