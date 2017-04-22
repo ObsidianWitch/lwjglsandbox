@@ -124,6 +124,11 @@ class Camera : Node {
             value  = projectionView
         )
 
+        Shader.globalUniforms.setUniform(
+            offset = 80,
+            value  = position
+        )
+
         oldTargetPosition = targetPosition
     }
 }

@@ -3,9 +3,17 @@
 struct Material {
     vec4 ambientColor;
     vec4 diffuseColor;
+    vec4 specularColor;
+    float specularHighlight;
 
     bool hasDiffuseTexture;
     sampler2D diffuseTexture;
+};
+
+layout (std140) uniform global {
+    float time;
+    mat4 projectionView;
+    vec3 cameraPosition;
 };
 
 in VertexData {
@@ -42,6 +50,12 @@ vec4 diffuseComponent(vec4 lightColor, vec3 lightDirection) {
 }
 
 vec4 specularComponent(vec4 lightColor, vec3 lightDirection) {
-    // TODO
-    return vec4(0.0f);
+    vec3 viewDirection = normalize(cameraPosition - fs.position);
+    vec3 reflectedDirection = reflect(-lightDirection, fs.normal);
+
+    float specularCoefficient = pow(
+        max(dot(viewDirection, reflectedDirection), 0.2),
+        material.specularHighlight
+    );
+    return lightColor * material.specularColor * specularCoefficient;
 }

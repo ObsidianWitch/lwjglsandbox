@@ -17,18 +17,17 @@ class Shader {
         // variable        size    offset    total memory    owner
         // time            4B      0         16B             Shader
         // projection*view 64B     16        80B             Camera
-        // -> accumulated memory = 80B = 20F
+        // cameraPosition  12B     80        96B             Camera
         val globalUniforms: UniformBuffer = UniformBuffer(
             name         = "global",
             bindingPoint = 0,
-            size         = 20
+            size         = 24
         )
 
         // `lightsUniforms` stores the following uniforms.
         // variable        size    offset    total memory    owner
         // aL              16B     0         16B             AmbientLight
         // dL              28B     16        48B             DirectionalLight
-        // -> accumulated memory = 48B = 12F
         val lightsUniforms: UniformBuffer = UniformBuffer(
             name         = "lights",
             bindingPoint = 1,

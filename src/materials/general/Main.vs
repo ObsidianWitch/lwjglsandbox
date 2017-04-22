@@ -7,6 +7,7 @@ layout (location = 2) in vec2 uv;
 layout (std140) uniform global {
     float time;
     mat4 projectionView;
+    vec3 cameraPosition;
 };
 
 uniform mat4 model;
@@ -21,7 +22,7 @@ out VertexData {
 void main() {
     gl_Position =  projectionView * model * vec4(position, 1.0f);
 
-    // All the lighting calculations are done in world space coordinates.
+    // Lighting calculations are done in world space coordinates.
     fs.position = vec3(model * vec4(position, 1.0f));
     fs.normal = normalMatrix * normal;
     fs.uv = uv;

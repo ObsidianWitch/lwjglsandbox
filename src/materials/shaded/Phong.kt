@@ -28,6 +28,18 @@ class Phong : Material {
             setUniform("material.diffuseColor", field)
         }
 
+    var specularColor: Vector4f
+        set(value) = shader.use {
+            field = value
+            setUniform("material.specularColor", field)
+        }
+
+    var specularHighlight: Float
+        set(value) = shader.use {
+            field = value
+            setUniform("material.specularHighlight", field)
+        }
+
     var diffuseTexture: Texture? = null
         set(value) = shader.use {
             field = value
@@ -38,6 +50,9 @@ class Phong : Material {
     constructor() : super() {
         ambientColor = Vector4f(1.0f, 1.0f, 1.0f, 1.0f)
         diffuseColor = Vector4f(1.0f, 1.0f, 1.0f, 1.0f)
+        specularColor = Vector4f(0.0f, 0.0f, 0.0f, 1.0f)
+        specularHighlight = 0.0f
+
     }
 
     override fun bind() {
