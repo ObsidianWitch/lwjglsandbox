@@ -2,7 +2,7 @@ package sandbox.nodes
 
 import org.joml.*
 
-import sandbox.materials.Unshaded
+import sandbox.materials.Phong
 import sandbox.models.Mesh
 import sandbox.models.Texture
 
@@ -13,7 +13,7 @@ class Ground : VisibleNode {
     constructor() : super() {
         mesh = Mesh(
             path = "resources/ground/ground.obj",
-            material = Unshaded().apply {
+            material = Phong().apply {
                 diffuseTexture = Texture(
                     path = "resources/ground/ground.jpg",
                     unit = GL_TEXTURE0
