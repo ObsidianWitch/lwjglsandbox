@@ -2,7 +2,7 @@ package sandbox.nodes
 
 import org.joml.*
 
-import sandbox.materials.Unshaded
+import sandbox.materials.Phong
 import sandbox.models.Mesh
 import sandbox.models.Texture
 
@@ -29,7 +29,7 @@ class Player : VisibleNode {
 
         mesh = Mesh(
             path = "resources/aina/aina.obj",
-            material = Unshaded().apply {
+            material = Phong().apply {
                 diffuseTexture = Texture(
                     path = "resources/aina/textures.png",
                     unit = GL_TEXTURE0

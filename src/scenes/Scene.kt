@@ -2,6 +2,7 @@ package sandbox.scenes
 
 import org.lwjgl.glfw.GLFW.*
 import org.joml.Vector3f
+import org.joml.Vector4f
 
 import sandbox.ui.Window
 import sandbox.nodes.Camera
@@ -9,6 +10,7 @@ import sandbox.nodes.CameraCallbacks
 import sandbox.nodes.Ground
 import sandbox.nodes.Player
 import sandbox.nodes.PlayerCallbacks
+import sandbox.nodes.AmbientLight
 
 class Scene {
     private val window: Window
@@ -17,6 +19,8 @@ class Scene {
 
     private val ground: Ground
     private val player: Player
+
+    private val ambientLight: AmbientLight
 
     constructor(window: Window) {
         this.window = window
@@ -48,6 +52,11 @@ class Scene {
             mouseButtonCallbacks.add(cameraCallbacks.mouseButtonCallback)
             cursorPositionCallbacks.add(cameraCallbacks.cursorPositionCallback)
         }
+
+        this.ambientLight = AmbientLight(
+            offset = 0,
+            color = Vector4f(1.0f, 0.85f, 0.85f, 1.0f)
+        )
     }
 
     fun update() {
@@ -56,5 +65,7 @@ class Scene {
         ground.update()
 
         player.update()
+
+        ambientLight.update()
     }
 }
