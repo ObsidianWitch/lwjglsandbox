@@ -10,6 +10,7 @@ layout (std140) uniform global {
 };
 
 uniform mat4 model;
+uniform mat3 normalMatrix;
 
 out VertexData {
     vec3 position;
@@ -20,8 +21,9 @@ out VertexData {
 void main() {
     gl_Position =  projectionView * model * vec4(position, 1.0f);
 
-    fs.position = position;
-    fs.normal = normal;
+    // All the lighting calculations are done in world space coordinates.
+    fs.position = vec3(model * vec4(position, 1.0f));
+    fs.normal = normalMatrix * normal;
     fs.uv = uv;
 }
 

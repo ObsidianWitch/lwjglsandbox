@@ -14,9 +14,9 @@ import org.joml.*
 class Shader {
     companion object {
         // `globalUniforms` stores the following uniforms.
-        // variable        size    offset    accumulated memory    owner
-        // time            4B      0         16B                   Shader
-        // projection*view 64B     16        80B                   Camera
+        // variable        size    offset    total memory    owner
+        // time            4B      0         16B             Shader
+        // projection*view 64B     16        80B             Camera
         // -> accumulated memory = 80B = 20F
         val globalUniforms: UniformBuffer = UniformBuffer(
             name         = "global",
@@ -25,12 +25,14 @@ class Shader {
         )
 
         // `lightsUniforms` stores the following uniforms.
-        // variable        size    offset    accumulated memory    owner
-        // ambientLight    16B     0         16B                   AmbientLight
+        // variable        size    offset    total memory    owner
+        // aL              16B     0         16B             AmbientLight
+        // dL              28B     16        48B             DirectionalLight
+        // -> accumulated memory = 48B = 12F
         val lightsUniforms: UniformBuffer = UniformBuffer(
             name         = "lights",
             bindingPoint = 1,
-            size         = 4
+            size         = 12
         )
     }
 

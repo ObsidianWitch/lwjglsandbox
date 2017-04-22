@@ -11,6 +11,7 @@ import sandbox.nodes.Ground
 import sandbox.nodes.Player
 import sandbox.nodes.PlayerCallbacks
 import sandbox.nodes.AmbientLight
+import sandbox.nodes.DirectionalLight
 
 class Scene {
     private val window: Window
@@ -20,7 +21,8 @@ class Scene {
     private val ground: Ground
     private val player: Player
 
-    private val ambientLight: AmbientLight
+    private val ambLight: AmbientLight
+    private val dirLight: DirectionalLight
 
     constructor(window: Window) {
         this.window = window
@@ -53,9 +55,15 @@ class Scene {
             cursorPositionCallbacks.add(cameraCallbacks.cursorPositionCallback)
         }
 
-        this.ambientLight = AmbientLight(
+        this.ambLight = AmbientLight(
             offset = 0,
-            color = Vector4f(1.0f, 0.85f, 0.85f, 1.0f)
+            color = Vector4f(0.1f, 0.0f, 0.0f, 1.0f)
+        )
+
+        this.dirLight = DirectionalLight(
+            offset = 16,
+            color = Vector4f(1.0f, 1.0f, 1.0f, 1.0f),
+            direction = Vector3f(-1.0f, -1.0f, -1.0f)
         )
     }
 
@@ -66,6 +74,7 @@ class Scene {
 
         player.update()
 
-        ambientLight.update()
+        ambLight.update()
+        dirLight.update()
     }
 }

@@ -18,6 +18,7 @@ open class VisibleNode : Node() {
     override fun update(f: () -> Unit) = mesh.material.use {
         f()
         mesh.material.shader.setUniform("model", finalModel)
+        mesh.material.shader.setUniform("normalMatrix", normalMatrix)
         mesh.draw()
     }
 }
