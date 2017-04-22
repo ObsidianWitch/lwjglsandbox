@@ -1,17 +1,10 @@
 package sandbox.scenes
 
 import org.lwjgl.glfw.GLFW.*
-import org.joml.Vector3f
-import org.joml.Vector4f
+import org.joml.*
 
 import sandbox.ui.Window
-import sandbox.nodes.Camera
-import sandbox.nodes.CameraCallbacks
-import sandbox.nodes.Ground
-import sandbox.nodes.Player
-import sandbox.nodes.PlayerCallbacks
-import sandbox.nodes.AmbientLight
-import sandbox.nodes.DirectionalLight
+import sandbox.nodes.*
 
 class Scene {
     private val window: Window

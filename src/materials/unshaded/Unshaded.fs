@@ -17,13 +17,11 @@ uniform Material material;
 
 out vec4 color;
 
+vec4 diffuseTexture(bool hasDiffuseTexture, sampler2D diffuseTexture);
+
 void main() {
-    vec4 tmpColor = material.diffuseColor;
-
-    if (material.hasDiffuseTexture) {
-        tmpColor *= texture(material.diffuseTexture, fs.uv);
-    }
-
-    color = tmpColor;
+    color = material.diffuseColor * diffuseTexture(
+        material.hasDiffuseTexture, material.diffuseTexture
+    );
 }
 

@@ -10,6 +10,7 @@ import sandbox.models.Texture
 class Phong : Material {
     override val shader: Shader = Shader().apply {
        add(GL_VERTEX_SHADER, "src/materials/general/Main.vs")
+       add(GL_FRAGMENT_SHADER, "src/materials/general/Texture.fs")
        add(GL_FRAGMENT_SHADER, "src/materials/shaded/Lights.fs")
        add(GL_FRAGMENT_SHADER, "src/materials/shaded/Phong.fs")
        add(GL_FRAGMENT_SHADER, "src/materials/shaded/Shaded.fs")
