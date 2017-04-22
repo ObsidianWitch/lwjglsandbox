@@ -1,6 +1,7 @@
 package sandbox.materials
 
 import org.joml.Matrix4f
+import org.joml.Vector3f
 import org.joml.Vector4f
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL15.*
@@ -55,6 +56,11 @@ class UniformBuffer {
 
     fun setUniform(offset: Long, value: Matrix4f) = use {
         val fb = BufferUtils.createFloatBuffer(16)
+        glBufferSubData(GL_UNIFORM_BUFFER, offset, value.get(fb))
+    }
+
+    fun setUniform(offset: Long, value: Vector3f) = use {
+        val fb = BufferUtils.createFloatBuffer(3)
         glBufferSubData(GL_UNIFORM_BUFFER, offset, value.get(fb))
     }
 

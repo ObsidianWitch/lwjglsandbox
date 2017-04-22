@@ -9,7 +9,7 @@ abstract class Light : Node {
     var color: Vector4f
 
     // Offset of this light in `Shader.lightsUniforms`
-    private val offset: Long
+    protected val offset: Long
 
     constructor(offset: Long, color: Vector4f) : super() {
         this.offset = offset
