@@ -16,8 +16,8 @@ abstract class Light : Node {
         this.color = color
     }
 
-    override fun update(f: () -> Unit) {
-        super.update(f)
+    override fun update() {
+        super.update()
 
         Shader.lightsUniforms.setUniform(
             offset = offset,

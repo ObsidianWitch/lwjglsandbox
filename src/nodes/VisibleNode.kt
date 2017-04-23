@@ -15,8 +15,7 @@ open class VisibleNode : Node() {
     // Further instructions can be specified through the `f` parameter. This is
     // useful for example to set more uniforms which are not directly related
     // to the material (e.g. transformations).
-    override fun update(f: () -> Unit) = mesh.material.use {
-        f()
+    override fun update() = mesh.material.use {
         mesh.material.shader.setUniform("model", finalModel)
         mesh.material.shader.setUniform("normalMatrix", normalMatrix)
         mesh.draw()

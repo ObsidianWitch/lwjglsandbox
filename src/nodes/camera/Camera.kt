@@ -114,8 +114,8 @@ class Camera : Node {
     // The `oldTargetPösition` purpose is to keep track of the target's moves.
     // This allows the distance between the camera and the target to remain the
     // same if the target moves. This is what makes this camera a chasing one.
-    override fun update(f: () -> Unit) {
-        super.update(f)
+    override fun update() {
+        super.update()
 
         model.translate(targetPosition.sub(oldTargetPosition))
 

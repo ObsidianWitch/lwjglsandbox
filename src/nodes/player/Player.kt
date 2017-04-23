@@ -39,8 +39,8 @@ class Player : VisibleNode {
     }
 
     // Simulates breathing using scaling.
-    override fun update(f: () -> Unit) {
-        super.update(f)
+    override fun update() {
+        super.update()
 
         val scaleVec = Vector3f(1.0f)
         scaleVec.y += 0.005f * Math.exp(Math.sin(glfwGetTime())).toFloat()

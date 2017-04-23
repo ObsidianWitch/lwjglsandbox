@@ -16,8 +16,8 @@ class DirectionalLight : Light {
         this.direction = direction
     }
 
-    override fun update(f: () -> Unit) {
-        super.update(f)
+    override fun update() {
+        super.update()
 
         Shader.lightsUniforms.setUniform(
             offset = offset + 16,

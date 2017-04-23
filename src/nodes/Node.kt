@@ -21,6 +21,5 @@ open class Node {
         finalModel.invert().transpose()
     )
 
-    // Updates the node.
-    open fun update(f: () -> Unit = {}) { f() }
+    open fun update() {}
 }
