@@ -24,12 +24,10 @@ in VertexData {
 
 uniform Material material;
 
-vec4 diffuseTexture(bool hasDiffuseTexture, sampler2D diffuseTexture);
+vec4 diffuseTexture();
 
 vec4 ambientComponent(vec4 lightColor) {
-    return lightColor * material.ambientColor * diffuseTexture(
-        material.hasDiffuseTexture, material.diffuseTexture
-    );
+    return lightColor * material.ambientColor * diffuseTexture();
 }
 
 vec4 diffuseComponent(vec4 lightColor, vec3 lightDirection) {
@@ -38,10 +36,8 @@ vec4 diffuseComponent(vec4 lightColor, vec3 lightDirection) {
         0.2f
     );
 
-    return lightColor * material.diffuseColor* diffuseCoefficient
-         * diffuseTexture(
-             material.hasDiffuseTexture, material.diffuseTexture
-         );
+    return lightColor * material.diffuseColor * diffuseCoefficient
+         * diffuseTexture();
 }
 
 vec4 specularComponent(vec4 lightColor, vec3 lightDirection) {

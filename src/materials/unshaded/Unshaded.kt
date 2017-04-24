@@ -10,7 +10,11 @@ import sandbox.models.Texture
 class Unshaded : Material {
     override val shader: Shader = Shader().apply {
        add(GL_VERTEX_SHADER, "src/materials/general/Main.vs")
-       add(GL_FRAGMENT_SHADER, "src/materials/general/Texture.fs")
+       add(
+           GL_FRAGMENT_SHADER,
+           "src/materials/general/Texture.fs",
+           "#define UNSHADED"
+       )
        add(GL_FRAGMENT_SHADER, "src/materials/unshaded/Unshaded.fs")
        link()
     }
