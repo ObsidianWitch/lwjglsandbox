@@ -1,7 +1,6 @@
 package sandbox.materials
 
-import java.nio.file.Files
-import java.nio.file.Paths
+import java.io.File
 import java.nio.FloatBuffer
 import java.util.stream.Collectors
 
@@ -39,9 +38,13 @@ class Shader {
     private val shaders: MutableList<Int> = mutableListOf()
     private val uniforms: MutableMap<String, Int> = mutableMapOf()
 
-    fun add(type: Int, path: String) {
-        val src = Files.lines(Paths.get(path))
-                       .collect(Collectors.joining("\n"))
+    // Add the following shader sources specified by `path` and compiles them.
+    // Additional sources can be manually added through `optSrc` (e.g. to add
+    // preprocessor directives).
+    fun add(type: Int, path: String, optSrc: String = "") {
+        val src = File(path).readLines().toMutableList().apply {
+            add(1, optSrc)
+        }.joinToString(separator = "\n")
 
         val shader = glCreateShader(type)
         glShaderSource(shader, src)
