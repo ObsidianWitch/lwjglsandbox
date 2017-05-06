@@ -9,17 +9,14 @@ struct DirectionalLight {
     vec3 direction;
 };
 
-layout (std140) uniform lights {
-    AmbientLight aL;
-    DirectionalLight dL;
-};
-
 in VertexData {
     vec3 position;
     vec3 normal;
     vec2 uv;
 } fs;
 
+uniform AmbientLight aL;
+uniform DirectionalLight dL;
 
 vec4 ambientComponent(vec4 lightColor);
 vec4 diffuseComponent(vec4 lightColor, vec3 lightDirection);

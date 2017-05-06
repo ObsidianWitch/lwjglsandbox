@@ -49,12 +49,12 @@ class Scene {
         }
 
         this.ambLight = AmbientLight(
-            offset = 0,
+            name = "aL",
             color = Vector4f(0.1f, 0.0f, 0.0f, 1.0f)
         )
 
         this.dirLight = DirectionalLight(
-            offset = 16,
+            name = "dL",
             color = Vector4f(1.0f, 1.0f, 1.0f, 1.0f),
             direction = Vector3f(-1.0f, -1.0f, -1.0f)
         )
@@ -63,11 +63,11 @@ class Scene {
     fun update() {
         camera.update()
 
+        ambLight.update()
+        dirLight.update()
+
         ground.update()
 
         player.update()
-
-        ambLight.update()
-        dirLight.update()
     }
 }

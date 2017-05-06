@@ -4,7 +4,6 @@ import java.io.File
 import java.nio.FloatBuffer
 import java.util.stream.Collectors
 
-import org.lwjgl.glfw.GLFW.*
 import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL20.*
 import org.lwjgl.opengl.GL31.*
@@ -12,26 +11,31 @@ import org.joml.*
 
 class Shader {
     companion object {
-        // `globalUniforms` stores the following uniforms.
-        // variable        size    offset    total memory    owner
-        // time            4B      0         16B             Shader
-        // projection*view 64B     16        80B             Camera
-        // cameraPosition  12B     80        96B             Camera
-        val globalUniforms: UniformBuffer = UniformBuffer(
-            name         = "global",
-            bindingPoint = 0,
-            size         = 24
-        )
+        private val programs: MutableList<Shader> = mutableListOf()
 
-        // `lightsUniforms` stores the following uniforms.
-        // variable        size    offset    total memory    owner
-        // aL              16B     0         16B             AmbientLight
-        // dL              28B     16        48B             DirectionalLight
-        val lightsUniforms: UniformBuffer = UniformBuffer(
-            name         = "lights",
-            bindingPoint = 1,
-            size         = 12
-        )
+        fun setSharedUniform(name: String, value: Int) {
+            programs.forEach { it.use { it.setUniform(name, value) } }
+        }
+
+        fun setSharedUniform(name: String, value: Float) {
+            programs.forEach { it.use { it.setUniform(name, value) } }
+        }
+
+        fun setSharedUniform(name: String, value: Vector3f) {
+            programs.forEach { it.use { it.setUniform(name, value) } }
+        }
+
+        fun setSharedUniform(name: String, value: Vector4f) {
+            programs.forEach { it.use { it.setUniform(name, value) } }
+        }
+
+        fun setSharedUniform(name: String, value: Matrix3f) {
+            programs.forEach { it.use { it.setUniform(name, value) } }
+        }
+
+        fun setSharedUniform(name: String, value: Matrix4f) {
+            programs.forEach { it.use { it.setUniform(name, value) } }
+        }
     }
 
     val program: Int = glCreateProgram()
@@ -72,14 +76,10 @@ class Shader {
         shaders.forEach { glDeleteShader(it) }
         shaders.clear()
 
-        // Associate the current shader program with the `global` and `lights`
-        // uniform buffers.
-        globalUniforms.associate(this)
-        lightsUniforms.associate(this)
+        programs.add(this)
     }
 
     fun bind() {
-        globalUniforms.setUniform(0, glfwGetTime().toFloat())
         glUseProgram(program)
     }
     fun unbind() { glUseProgram(0) }

@@ -1,5 +1,6 @@
 package sandbox.nodes
 
+import org.lwjgl.glfw.GLFW.*
 import org.joml.Vector2d
 import org.joml.Vector3f
 import org.joml.Matrix4f
@@ -119,15 +120,9 @@ class Camera : Node {
 
         model.translate(targetPosition.sub(oldTargetPosition))
 
-        Shader.globalUniforms.setUniform(
-            offset = 16,
-            value  = projectionView
-        )
-
-        Shader.globalUniforms.setUniform(
-            offset = 80,
-            value  = position
-        )
+        Shader.setSharedUniform("global.time", glfwGetTime().toFloat())
+        Shader.setSharedUniform("global.projectionView", projectionView)
+        Shader.setSharedUniform("global.cameraPosition", position)
 
         oldTargetPosition = targetPosition
     }
