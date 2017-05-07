@@ -16,6 +16,7 @@ class Scene {
 
     private val ambLight: AmbientLight
     private val dirLight: DirectionalLight
+    private val ptLight: PointLight
 
     constructor(window: Window) {
         this.window = window
@@ -49,14 +50,24 @@ class Scene {
         }
 
         this.ambLight = AmbientLight(
-            name = "aL",
+            name  = "aL",
             color = Vector4f(0.1f, 0.0f, 0.0f, 1.0f)
         )
 
         this.dirLight = DirectionalLight(
-            name = "dL",
-            color = Vector4f(1.0f, 1.0f, 1.0f, 1.0f),
+            name      = "dL",
+            color     = Vector4f(1.0f, 1.0f, 1.0f, 1.0f),
             direction = Vector3f(-1.0f, -1.0f, -1.0f)
+        )
+
+        this.ptLight  = PointLight(
+            name      = "pL",
+            color     = Vector4f(0.9f, 0.6f, 0.2f, 1.0f),
+            position  = Vector3f(10.0f, 10.0f, 10.0f),
+            constant  = 0.1f,
+            linear    = 0.1f,
+            quadratic = 0.01f,
+            frequency = 2.0f
         )
     }
 
@@ -65,6 +76,7 @@ class Scene {
 
         ambLight.update()
         dirLight.update()
+        ptLight.update()
 
         ground.update()
 
