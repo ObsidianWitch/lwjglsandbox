@@ -13,27 +13,7 @@ class Shader {
     companion object {
         private val programs: MutableList<Shader> = mutableListOf()
 
-        fun setSharedUniform(name: String, value: Int) {
-            programs.forEach { it.use { it.setUniform(name, value) } }
-        }
-
-        fun setSharedUniform(name: String, value: Float) {
-            programs.forEach { it.use { it.setUniform(name, value) } }
-        }
-
-        fun setSharedUniform(name: String, value: Vector3f) {
-            programs.forEach { it.use { it.setUniform(name, value) } }
-        }
-
-        fun setSharedUniform(name: String, value: Vector4f) {
-            programs.forEach { it.use { it.setUniform(name, value) } }
-        }
-
-        fun setSharedUniform(name: String, value: Matrix3f) {
-            programs.forEach { it.use { it.setUniform(name, value) } }
-        }
-
-        fun setSharedUniform(name: String, value: Matrix4f) {
+        fun <T> setSharedUniform(name:String, value: T) {
             programs.forEach { it.use { it.setUniform(name, value) } }
         }
     }
@@ -96,32 +76,27 @@ class Shader {
         return id
     }
 
-    fun setUniform(name: String, value: Int) {
-        glUniform1i(uniformLocation(name), value)
-    }
-
-    fun setUniform(name: String, value: Float) {
-        glUniform1f(uniformLocation(name), value)
-    }
-
-    fun setUniform(name: String, value: Vector3f) {
-        val fb = BufferUtils.createFloatBuffer(3)
-        glUniform3fv(uniformLocation(name), value.get(fb))
-    }
-
-    fun setUniform(name: String, value: Vector4f) {
-        val fb = BufferUtils.createFloatBuffer(4)
-        glUniform4fv(uniformLocation(name), value.get(fb))
-    }
-
-    fun setUniform(name: String, value: Matrix3f) {
-        val fb = BufferUtils.createFloatBuffer(9)
-        glUniformMatrix3fv(uniformLocation(name), false, value.get(fb))
-    }
-
-    fun setUniform(name: String, value: Matrix4f) {
-        val fb = BufferUtils.createFloatBuffer(16)
-        glUniformMatrix4fv(uniformLocation(name), false, value.get(fb))
+    fun <T> setUniform(name: String, value: T) {
+        when (value) {
+            is Int -> glUniform1i(uniformLocation(name), value)
+            is Float -> glUniform1f(uniformLocation(name), value)
+            is Vector3f -> {
+                val fb = BufferUtils.createFloatBuffer(3)
+                glUniform3fv(uniformLocation(name), value.get(fb))
+            }
+            is Vector4f -> {
+                val fb = BufferUtils.createFloatBuffer(4)
+                glUniform4fv(uniformLocation(name), value.get(fb))
+            }
+            is Matrix3f -> {
+                val fb = BufferUtils.createFloatBuffer(9)
+                glUniformMatrix3fv(uniformLocation(name), false, value.get(fb))
+            }
+            is Matrix4f -> {
+                val fb = BufferUtils.createFloatBuffer(16)
+                glUniformMatrix4fv(uniformLocation(name), false, value.get(fb))
+            }
+        }
     }
 }
 
