@@ -83,7 +83,7 @@ class Mesh {
         glEnableVertexAttribArray(2)
     }
 
-    fun draw() {
+    fun draw() = material.use {
         glBindVertexArray(vertexArray)
         glDrawElements(GL_TRIANGLES, indicesSize, GL_UNSIGNED_INT, 0)
         glBindVertexArray(0)

@@ -57,7 +57,11 @@ class Window {
         GL.createCapabilities()
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f)
         glViewport(0, 0, width, height)
+
         glEnable(GL_DEPTH_TEST);
+
+        glEnable(GL_CULL_FACE);
+        glCullFace(GL_BACK);
 
         if (debug) { GLUtil.setupDebugMessageCallback() }
     }

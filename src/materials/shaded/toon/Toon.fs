@@ -32,10 +32,9 @@ vec4 ambientComponent(vec4 lightColor) {
 }
 
 vec4 diffuseComponent(vec4 lightColor, vec3 lightDirection) {
-    float diffuseCoefficient = max(
-        dot(fs.normal, lightDirection),
-        0.2f
-    );
+    float diffuseCoefficient = dot(fs.normal, lightDirection);
+    if (diffuseCoefficient > 0.2f) { diffuseCoefficient = 0.7f; }
+    else { diffuseCoefficient = 0.2f; }
 
     return lightColor * material.diffuseColor * diffuseCoefficient
          * diffuseTexture();
@@ -46,8 +45,11 @@ vec4 specularComponent(vec4 lightColor, vec3 lightDirection) {
     vec3 reflectedDirection = reflect(-lightDirection, fs.normal);
 
     float specularCoefficient = pow(
-        max(dot(viewDirection, reflectedDirection), 0.2),
+        max(dot(viewDirection, reflectedDirection), 0.2f),
         material.specularHighlight
     );
+    if (specularCoefficient < 0.5f) { specularCoefficient = 0.0f; }
+    else { specularCoefficient = 1.0f; }
+
     return lightColor * material.specularColor * specularCoefficient;
 }

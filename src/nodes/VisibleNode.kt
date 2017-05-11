@@ -2,8 +2,6 @@ package sandbox.nodes
 
 import kotlin.properties.Delegates
 
-import org.joml.Matrix4f
-
 import sandbox.models.Mesh
 
 // A VisibleNode is a Node containing a mesh.
@@ -18,10 +16,8 @@ open class VisibleNode : Node() {
     override fun update() {
         super.update()
 
-        mesh.material.use {
-            mesh.material.shader.setUniform("model", finalModel)
-            mesh.material.shader.setUniform("normalMatrix", normalMatrix)
-            mesh.draw()
-        }
+        mesh.material.model = finalModel
+        mesh.material.normalMatrix = normalMatrix
+        mesh.draw()
     }
 }
