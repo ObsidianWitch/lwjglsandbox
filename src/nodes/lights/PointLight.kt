@@ -29,10 +29,9 @@ class PointLight : AmbientLight {
     override fun update() {
         super.update()
 
-        // quadOverTime in [1.0 ; 3.0]
-        val quadOverTime = if (frequency == 0.0f) 1.0f else Math.sin(
+        val quadOverTime = if (frequency == 0.0f) 1.0f else Math.exp(Math.sin(
             frequency * glfwGetTime()
-        ).toFloat() + 2.0f
+        )).toFloat()
 
         Shader.setSharedUniform("${name}.position", position)
         Shader.setSharedUniform("${name}.constant", constant)
