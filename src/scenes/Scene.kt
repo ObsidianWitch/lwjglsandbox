@@ -16,7 +16,7 @@ class Scene {
 
     private val ambLight: AmbientLight
     private val dirLight: DirectionalLight
-    private val ptLight: PointLight
+    private val torch: Torch
 
     constructor(window: Window) {
         this.window = window
@@ -60,15 +60,9 @@ class Scene {
             direction = Vector3f(-1.0f, -1.0f, -1.0f)
         )
 
-        this.ptLight  = PointLight(
-            name      = "pL",
-            color     = Vector4f(0.9f, 0.6f, 0.2f, 1.0f),
-            position  = Vector3f(10.0f, 10.0f, 10.0f),
-            constant  = 0.1f,
-            linear    = 0.1f,
-            quadratic = 0.01f,
-            frequency = 2.0f
-        )
+        this.torch = Torch().apply {
+            children.forEach { it.model.translate(10.0f, 0.0f, 0.0f) }
+        }
     }
 
     fun update() {
@@ -76,7 +70,7 @@ class Scene {
 
         ambLight.update()
         dirLight.update()
-        ptLight.update()
+        torch.update()
 
         ground.update()
 
