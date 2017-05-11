@@ -8,6 +8,8 @@ import org.joml.Matrix4f
 // and thus can be transformed (e.g. translation, rotation, scaling).
 open class Node {
 
+    val children: MutableList<Node> = mutableListOf()
+
     // Handles temporary local transformations (e.g. rotate the Node over time).
     val tmpLocal: Matrix4f = Matrix4f()
 
@@ -21,5 +23,5 @@ open class Node {
         finalModel.invert().transpose()
     )
 
-    open fun update() {}
+    open fun update() { children.forEach { it.update() } }
 }
