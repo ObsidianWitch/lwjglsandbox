@@ -14,7 +14,7 @@ class Ground : VisibleNode {
         mesh = Mesh(
             path = "resources/ground/ground.obj",
             material = Phong().apply {
-                diffuseTexture = Texture(
+                unshadedUniforms.diffuseTexture = Texture(
                     path = "resources/ground/ground.jpg",
                     unit = GL_TEXTURE0
                 )

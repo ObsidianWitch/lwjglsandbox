@@ -30,7 +30,7 @@ class Player : VisibleNode {
         mesh = Mesh(
             path = "resources/aina/aina.obj",
             material = Toon().apply {
-                diffuseTexture = Texture(
+                unshadedUniforms.diffuseTexture = Texture(
                     path = "resources/aina/textures.png",
                     unit = GL_TEXTURE0
                 )

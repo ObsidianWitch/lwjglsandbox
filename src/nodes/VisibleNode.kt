@@ -16,8 +16,8 @@ open class VisibleNode : Node() {
     override fun update() {
         super.update()
 
-        mesh.material.model = finalModel
-        mesh.material.normalMatrix = normalMatrix
+        mesh.material.meshUniforms.model = finalModel
+        mesh.material.meshUniforms.normalMatrix = normalMatrix
         mesh.draw()
     }
 }

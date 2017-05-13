@@ -15,7 +15,9 @@ class Torch : Node {
             mesh = Mesh(
                 path = "resources/staff/staff.obj",
                 material = Phong().apply {
-                    diffuseColor = Vector4f(0.35f, 0.2f, 0.1f, 1.0f)
+                    unshadedUniforms.diffuseColor = Vector4f(
+                        0.35f, 0.2f, 0.1f, 1.0f
+                    )
                 }
             )
         }

@@ -1,27 +1,21 @@
 package sandbox.materials
 
+import kotlin.properties.Delegates
+
 import org.joml.Matrix3f
 import org.joml.Matrix4f
 
 abstract class Material {
-    protected abstract val shader: Shader
+    protected val shaders: MutableList<Shader>
 
-    var model = Matrix4f()
-        set(value) {
-            field = value
-            setUniform("model", field)
-        }
+    val meshUniforms : MeshUniforms
 
-    var normalMatrix = Matrix3f()
-        set(value) {
-            field = value
-            setUniform("normalMatrix", field)
-        }
+    constructor() {
+        shaders = mutableListOf()
+        meshUniforms = MeshUniforms(shaders)
+    }
 
-    open fun use(f: () -> Unit) { shader.bind(); f(); shader.unbind() }
-
-
-    protected open fun <T> setUniform(name: String, value: T) {
-        shader.use { setUniform(name, value) }
+    open fun use(f: () -> Unit) = shaders.forEach {
+        it.bind(); f(); it.unbind()
     }
 }
