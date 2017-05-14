@@ -9,6 +9,8 @@ import org.lwjgl.opengl.GL20.*
 import org.lwjgl.opengl.GL31.*
 import org.joml.*
 
+private data class ShaderSource(val type: Int, val src: String)
+
 class Shader {
     companion object {
         private val programs: MutableList<Shader> = mutableListOf()
@@ -19,10 +21,11 @@ class Shader {
     }
 
     val program: Int = glCreateProgram()
-    private val shaders: MutableList<Int> = mutableListOf()
-    private val uniforms: MutableMap<String, Int> = mutableMapOf()
+    private val sources = mutableListOf<ShaderSource>()
+    private val uniforms = mutableMapOf<String, Int>()
 
-    // Add the following shader sources specified by `path` and compiles them.
+    // Add the following shader sources specified by `path` to the list of
+    // sources to compile.
     // Additional sources can be manually added through `optSrc` (e.g. to add
     // preprocessor directives).
     fun add(type: Int, path: String, optSrc: String = "") {
@@ -30,20 +33,31 @@ class Shader {
             add(1, optSrc)
         }.joinToString(separator = "\n")
 
+        sources.add(ShaderSource(type, src))
+    }
+
+    private fun compileOne(type: Int, src: String) : Int {
         val shader = glCreateShader(type)
         glShaderSource(shader, src)
         glCompileShader(shader)
 
         val compiled = glGetShaderi(shader, GL_COMPILE_STATUS)
         assert(compiled != 0) { """
-            Shader (${path}) compilation failed
+            Shader compilation failed
             ${glGetShaderInfoLog(shader)}
         """.trimIndent() }
 
-        shaders.add(shader)
+        return shader
+    }
+
+    private fun compileAll() : MutableList<Int> {
+        val shaders = mutableListOf<Int>()
+        sources.forEach { shaders.add(compileOne(it.type, it.src)) }
+        return shaders
     }
 
     fun link() {
+        val shaders = compileAll()
         shaders.forEach { glAttachShader(program, it) }
 
         glLinkProgram(program)
