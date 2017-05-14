@@ -8,11 +8,11 @@ import org.joml.Matrix4f
 abstract class Material {
     protected val shaders: MutableList<Shader>
 
-    val meshUniforms : MeshUniforms
+    val nodeUniforms : NodeUniforms
 
     constructor() {
         shaders = mutableListOf()
-        meshUniforms = MeshUniforms(shaders)
+        nodeUniforms = NodeUniforms(shaders)
     }
 
     open fun use(f: () -> Unit) = shaders.forEach {

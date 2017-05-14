@@ -3,7 +3,7 @@ package sandbox.materials
 import org.joml.Matrix3f
 import org.joml.Matrix4f
 
-class MeshUniforms {
+class NodeUniforms {
     private val handler: UniformsHandler
 
     constructor(shaders: List<Shader>) {
@@ -16,12 +16,12 @@ class MeshUniforms {
     var model : Matrix4f
         set(value) {
             field = value
-            handler.setUniform("mesh.model", field)
+            handler.setUniform("node.model", field)
         }
 
     var normalMatrix : Matrix3f
         set(value) {
             field = value
-            handler.setUniform("mesh.normalMatrix", field)
+            handler.setUniform("node.normalMatrix", field)
         }
 }
