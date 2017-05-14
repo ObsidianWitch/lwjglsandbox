@@ -16,12 +16,12 @@ class MeshUniforms {
     var model : Matrix4f
         set(value) {
             field = value
-            handler.setUniform("model", field)
+            handler.setUniform("mesh.model", field)
         }
 
     var normalMatrix : Matrix3f
         set(value) {
             field = value
-            handler.setUniform("normalMatrix", field)
+            handler.setUniform("mesh.normalMatrix", field)
         }
 }

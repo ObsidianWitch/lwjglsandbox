@@ -10,9 +10,13 @@ struct Global {
     vec3 cameraPosition;
 };
 
+struct Mesh {
+    mat4 model;
+    mat3 normalMatrix;
+};
+
 uniform Global global;
-uniform mat4 model;
-uniform mat3 normalMatrix;
+uniform Mesh mesh;
 
 out VertexData {
     vec3 position;
@@ -21,11 +25,11 @@ out VertexData {
 } fs;
 
 void main() {
-    gl_Position =  global.projectionView * model * vec4(position, 1.0f);
+    gl_Position =  global.projectionView * mesh.model * vec4(position, 1.0f);
 
     // Lighting calculations are done in world space coordinates.
-    fs.position = vec3(model * vec4(position, 1.0f));
-    fs.normal = normalMatrix * normal;
+    fs.position = vec3(mesh.model * vec4(position, 1.0f));
+    fs.normal = mesh.normalMatrix * normal;
     fs.uv = uv;
 }
 
