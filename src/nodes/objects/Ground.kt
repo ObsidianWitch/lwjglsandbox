@@ -4,7 +4,7 @@ import org.joml.*
 
 import sandbox.materials.Phong
 import sandbox.models.Mesh
-import sandbox.models.Texture
+import sandbox.models.Texture2D
 
 import org.lwjgl.glfw.GLFW.*
 import org.lwjgl.opengl.GL13.*
@@ -14,7 +14,7 @@ class Ground : VisibleNode {
         mesh = Mesh(
             path = "resources/ground/ground.obj",
             material = Phong().apply {
-                unshadedUniforms.diffuseTexture = Texture(
+                unshadedUniforms.diffuseTexture = Texture2D(
                     path = "resources/ground/ground.jpg",
                     unit = GL_TEXTURE0
                 )

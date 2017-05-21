@@ -4,7 +4,7 @@ import org.joml.*
 
 import sandbox.materials.Toon
 import sandbox.models.Mesh
-import sandbox.models.Texture
+import sandbox.models.Texture2D
 
 import org.lwjgl.glfw.GLFW.*
 import org.lwjgl.opengl.GL13.*
@@ -30,7 +30,7 @@ class Player : VisibleNode {
         mesh = Mesh(
             path = "resources/aina/aina.obj",
             material = Toon().apply {
-                unshadedUniforms.diffuseTexture = Texture(
+                unshadedUniforms.diffuseTexture = Texture2D(
                     path = "resources/aina/textures.png",
                     unit = GL_TEXTURE0
                 )
