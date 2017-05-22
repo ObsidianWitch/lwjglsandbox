@@ -1,12 +1,9 @@
 package sandbox.nodes
 
-import org.joml.*
-
 import sandbox.materials.Phong
 import sandbox.models.Mesh
 import sandbox.models.Texture2D
 
-import org.lwjgl.glfw.GLFW.*
 import org.lwjgl.opengl.GL13.*
 
 class Ground : VisibleNode {

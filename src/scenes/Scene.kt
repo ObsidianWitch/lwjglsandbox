@@ -13,6 +13,7 @@ class Scene {
 
     private val ground: Ground
     private val player: Player
+    private val sky: TwilightSky
 
     private val ambLight: AmbientLight
     private val dirLight: DirectionalLight
@@ -29,6 +30,8 @@ class Scene {
             model.rotateY(Math.toRadians(180.0).toFloat())
         }
         val playerCallbacks = PlayerCallbacks(player)
+
+        this.sky = TwilightSky()
 
         this.camera = Camera(
             target       = player,
@@ -73,7 +76,7 @@ class Scene {
         torch.update()
 
         ground.update()
-
         player.update()
+        sky.update()
     }
 }

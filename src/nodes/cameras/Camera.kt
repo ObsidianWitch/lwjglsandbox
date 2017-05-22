@@ -3,6 +3,7 @@ package sandbox.nodes
 import org.lwjgl.glfw.GLFW.*
 import org.joml.Vector2d
 import org.joml.Vector3f
+import org.joml.Matrix3f
 import org.joml.Matrix4f
 
 import sandbox.materials.Shader
@@ -37,6 +38,9 @@ class Camera : Node {
 
     val view: Matrix4f
         get() = Matrix4f().lookAt(position, targetPosition, up)
+
+    val viewUntranslated: Matrix4f
+        get() = Matrix4f(Matrix3f(view))
 
     val projectionView: Matrix4f
         get() = Matrix4f(projection).mul(view)
@@ -110,17 +114,18 @@ class Camera : Node {
         }
     }
 
-    // Stores the projection * view matrix in a global uniform shared by all
-    // shaders.
-    // The `oldTargetPösition` purpose is to keep track of the target's moves.
-    // This allows the distance between the camera and the target to remain the
-    // same if the target moves. This is what makes this camera a chasing one.
     override fun update() {
         super.update()
 
+        // The `oldTargetPösition` purpose is to keep track of the target's
+        // moves. This allows the distance between the camera and the target to
+        // remain the same if the target moves. This is what makes this camera
+        // a chasing one.
         model.translate(targetPosition.sub(oldTargetPosition))
 
         Shader.setSharedUniform("global.time", glfwGetTime().toFloat())
+        Shader.setSharedUniform("global.projection", projection)
+        Shader.setSharedUniform("global.viewUntranslated", viewUntranslated)
         Shader.setSharedUniform("global.projectionView", projectionView)
         Shader.setSharedUniform("global.cameraPosition", position)
 
