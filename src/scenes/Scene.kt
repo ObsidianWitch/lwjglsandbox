@@ -17,7 +17,7 @@ class Scene {
 
     private val ambLight: AmbientLight
     private val dirLight: DirectionalLight
-    private val torch: Torch
+    private val lantern: Lantern
 
     constructor(window: Window) {
         this.window = window
@@ -63,7 +63,7 @@ class Scene {
             direction = Vector3f(-1.0f, -1.0f, -1.0f)
         )
 
-        this.torch = Torch().apply {
+        this.lantern = Lantern().apply {
             children.forEach { it.model.translate(10.0f, 0.0f, 0.0f) }
         }
     }
@@ -73,7 +73,7 @@ class Scene {
 
         ambLight.update()
         dirLight.update()
-        torch.update()
+        lantern.update()
 
         ground.update()
         player.update()
