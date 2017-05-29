@@ -16,13 +16,17 @@ class Shader {
         private val programs: MutableList<Shader> = mutableListOf()
 
         fun <T> setSharedUniform(name:String, value: T) {
-            programs.forEach { it.use { it.setUniform(name, value) } }
+            programs.forEach {
+                it.bind()
+                it.setUniform(name, value)
+            }
         }
     }
 
     val program: Int = glCreateProgram()
     private val sources = mutableListOf<ShaderSource>()
     private val uniforms = mutableMapOf<String, Int>()
+    private val active = false
 
     // Add the following shader sources specified by `path` to the list of
     // sources to compile.
@@ -73,11 +77,7 @@ class Shader {
         programs.add(this)
     }
 
-    fun bind() {
-        glUseProgram(program)
-    }
-    fun unbind() { glUseProgram(0) }
-    inline fun use(f: Shader.() -> Unit) { bind(); f(); unbind() }
+    fun bind() { glUseProgram(program) }
 
     // Retrieves the uniform (identified by `name`) location.
     // The first call asks OpenGL for the location, subsequent calls retrieve

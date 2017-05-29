@@ -10,6 +10,9 @@ class UniformsHandler {
     constructor(shaders: List<Shader>) { this.shaders = shaders }
 
     fun <T> setUniform(name: String, value: T) {
-        shaders.forEach { it.use { setUniform(name, value) } }
+        shaders.forEach {
+            it.bind()
+            it.setUniform(name, value)
+        }
     }
 }

@@ -15,7 +15,5 @@ abstract class Material {
         nodeUniforms = NodeUniforms(shaders)
     }
 
-    open fun use(f: () -> Unit) = shaders.forEach {
-        it.bind(); f(); it.unbind()
-    }
+    open fun use(f: () -> Unit) = shaders.forEach { it.bind(); f() }
 }
